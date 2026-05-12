@@ -1,8 +1,9 @@
 'use client'
 import { useState } from 'react'
-import { MessageSquare, ChevronDown, AlertCircle, Clock, CheckCircle, XCircle, ExternalLink, Smartphone, Monitor, Tablet } from 'lucide-react'
+import { MessageSquare, ChevronDown, AlertCircle, Clock, CheckCircle, XCircle, ExternalLink, Smartphone, Monitor, Tablet, Plus, Lock } from 'lucide-react'
 import { timeAgo, STATUS_COLORS, PRIORITY_COLORS } from '@/lib/utils'
 import FeedbackStatusMenu from './FeedbackStatusMenu'
+import AddTaskModal from './AddTaskModal'
 
 const ACCENT = '#22c55e'
 const BORDER = '#1a1a1a'
@@ -23,6 +24,7 @@ type FeedbackItem = {
   viewport_height: number | null
   screenshot_url: string | null
   browser_info: Record<string, string> | null
+  is_private: boolean | null
   created_at: string
 }
 
@@ -36,6 +38,7 @@ const STATUS_ICON: Record<string, React.ReactNode> = {
 export default function FeedbackList({ items, projectId }: { items: FeedbackItem[]; projectId: string }) {
   const [filter, setFilter] = useState<string>('all')
   const [expanded, setExpanded] = useState<string | null>(null)
+  const [showAddTask, setShowAddTask] = useState(false)
 
   const statuses = ['all', 'open', 'in_progress', 'resolved', 'wont_fix']
   const filtered = filter === 'all' ? items : items.filter(i => i.status === filter)
@@ -57,14 +60,23 @@ export default function FeedbackList({ items, projectId }: { items: FeedbackItem
 
   return (
     <div>
-      {/* Filter tabs */}
-      <div style={{ display: 'flex', gap: 4, marginBottom: 16, flexWrap: 'wrap' }}>
-        {statuses.map(s => (
-          <button key={s} onClick={() => setFilter(s)}
-            style={{ padding: '6px 14px', borderRadius: 8, border: `1px solid ${filter === s ? ACCENT : BORDER}`, background: filter === s ? `${ACCENT}15` : 'transparent', color: filter === s ? ACCENT : BODY, fontSize: 12, fontWeight: 600, cursor: 'pointer', textTransform: 'capitalize' }}>
-            {s === 'all' ? `All (${items.length})` : s.replace('_', ' ')}
-          </button>
-        ))}
+      {showAddTask && <AddTaskModal projectId={projectId} onClose={() => setShowAddTask(false)} />}
+
+      {/* Header row: filters + New Task button */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 12, flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+          {statuses.map(s => (
+            <button key={s} onClick={() => setFilter(s)}
+              style={{ padding: '6px 14px', borderRadius: 8, border: `1px solid ${filter === s ? ACCENT : BORDER}`, background: filter === s ? `${ACCENT}15` : 'transparent', color: filter === s ? ACCENT : BODY, fontSize: 12, fontWeight: 600, cursor: 'pointer', textTransform: 'capitalize' }}>
+              {s === 'all' ? `All (${items.length})` : s.replace('_', ' ')}
+            </button>
+          ))}
+        </div>
+        <button
+          onClick={() => setShowAddTask(true)}
+          style={{ display: 'flex', alignItems: 'center', gap: 7, background: ACCENT, color: '#000', fontWeight: 800, fontSize: 13, padding: '8px 16px', borderRadius: 9, border: 'none', cursor: 'pointer', flexShrink: 0 }}>
+          <Plus size={14} /> New Task
+        </button>
       </div>
 
       {/* Feedback items */}
@@ -102,8 +114,13 @@ export default function FeedbackList({ items, projectId }: { items: FeedbackItem
                 </div>
               </div>
 
-              {/* Priority + expand */}
+              {/* Priority + internal badge + expand */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                {item.is_private && (
+                  <span style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#a78bfa', background: '#a78bfa15', border: '1px solid #a78bfa30', padding: '2px 7px', borderRadius: 99 }}>
+                    <Lock size={9} /> Internal
+                  </span>
+                )}
                 <span style={{ fontSize: 10, fontWeight: 700, color: PRIORITY_COLORS[item.priority] || BODY, background: `${PRIORITY_COLORS[item.priority] || BODY}15`, padding: '2px 7px', borderRadius: 99, textTransform: 'capitalize' }}>
                   {item.priority}
                 </span>
