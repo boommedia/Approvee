@@ -1,8 +1,8 @@
 'use client'
 import { useState, useRef, useCallback, useEffect } from 'react'
 import {
-  MessageSquare, X, Send, CheckCircle, AlertCircle, Monitor, Smartphone, Tablet,
-  Eye, EyeOff, ChevronRight, ChevronLeft, Maximize2, Info,
+  MessageSquare, X, Send, CheckCircle, Monitor, Smartphone, Tablet,
+  Eye, EyeOff, Info,
 } from 'lucide-react'
 import { timeAgo } from '@/lib/utils'
 
@@ -49,7 +49,7 @@ export default function ReviewCanvas({
   initialFeedback: Feedback[]
 }) {
   const iframeRef = useRef<HTMLIFrameElement>(null)
-  const overlayRef = useRef<HTMLDivElement>(null)
+  const canvasRef = useRef<HTMLDivElement>(null)
 
   const [mode, setMode] = useState<'browse' | 'annotate'>('browse')
   const [feedback, setFeedback] = useState<Feedback[]>(initialFeedback)
@@ -62,11 +62,10 @@ export default function ReviewCanvas({
   const [viewport, setViewport] = useState(0)
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selectedPin, setSelectedPin] = useState<Feedback | null>(null)
-  const [iframeLoaded, setIframeLoaded] = useState(false)
   const [iframeError, setIframeError] = useState(false)
+  const [iframeHeight, setIframeHeight] = useState(900)
   const [guestInfoSaved, setGuestInfoSaved] = useState(false)
 
-  // Load saved guest info
   useEffect(() => {
     const saved = localStorage.getItem('approvee_guest')
     if (saved) {
@@ -77,22 +76,46 @@ export default function ReviewCanvas({
     }
   }, [])
 
+  function handleIframeLoad() {
+    try {
+      const doc = iframeRef.current?.contentDocument
+      if (doc) {
+        const h = Math.max(
+          doc.body?.scrollHeight || 0,
+          doc.documentElement?.scrollHeight || 0,
+          900
+        )
+        setIframeHeight(h)
+      }
+    } catch {
+      // cross-origin fallback — keep default height
+    }
+  }
+
   const handleOverlayClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (mode !== 'annotate') return
     const rect = e.currentTarget.getBoundingClientRect()
+    const scrollTop = canvasRef.current?.scrollTop || 0
     const x = e.clientX - rect.left
-    const y = e.clientY - rect.top
+    const y = e.clientY - rect.top + scrollTop
+    const totalHeight = iframeRef.current?.offsetHeight || rect.height
     const xPercent = (x / rect.width) * 100
-    const yPercent = (y / rect.height) * 100
-    setClickPos({ x, y, xPercent, yPercent })
+    const yPercent = (y / totalHeight) * 100
+    setClickPos({ x: e.clientX - rect.left, y: e.clientY - rect.top, xPercent, yPercent })
     setSelectedPin(null)
-  }, [mode])
+  }, [mode, iframeHeight])
+
+  // Forward wheel events from the annotate overlay to the canvas scroller
+  function handleOverlayWheel(e: React.WheelEvent) {
+    if (canvasRef.current) {
+      canvasRef.current.scrollTop += e.deltaY
+      canvasRef.current.scrollLeft += e.deltaX
+    }
+  }
 
   async function submitFeedback() {
     if (!comment.trim() || !name.trim()) return
     setSubmitting(true)
-
-    // Save guest info
     localStorage.setItem('approvee_guest', JSON.stringify({ name, email }))
     setGuestInfoSaved(true)
 
@@ -127,19 +150,11 @@ export default function ReviewCanvas({
     setSubmitting(false)
   }
 
-  function cancelComment() {
-    setClickPos(null)
-    setComment('')
-  }
-
-  const currentUrl = project.url
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: BG, overflow: 'hidden' }}>
 
       {/* Top toolbar */}
       <div style={{ background: '#0d0d0d', borderBottom: `1px solid ${BORDER}`, padding: '0 16px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, zIndex: 100 }}>
-        {/* Left: logo + project */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <div style={{ width: 26, height: 26, borderRadius: 7, background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -154,7 +169,7 @@ export default function ReviewCanvas({
           </div>
         </div>
 
-        {/* Center: viewport switcher */}
+        {/* Viewport switcher */}
         <div style={{ display: 'flex', background: MUTED, border: `1px solid ${BORDER}`, borderRadius: 8, overflow: 'hidden' }}>
           {VIEWPORTS.map((v, i) => {
             const Icon = v.icon
@@ -167,7 +182,6 @@ export default function ReviewCanvas({
           })}
         </div>
 
-        {/* Right: controls */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <button onClick={() => setShowPins(!showPins)}
             style={{ display: 'flex', alignItems: 'center', gap: 6, background: MUTED, border: `1px solid ${BORDER}`, color: showPins ? '#fff' : BODY, padding: '6px 12px', borderRadius: 8, cursor: 'pointer', fontSize: 12, fontWeight: 600 }}>
@@ -193,171 +207,175 @@ export default function ReviewCanvas({
       {/* Mode hint banner */}
       {mode === 'annotate' && !clickPos && (
         <div style={{ background: `${ACCENT}10`, borderBottom: `1px solid ${ACCENT}25`, padding: '8px 16px', textAlign: 'center', fontSize: 13, color: ACCENT, fontWeight: 600, flexShrink: 0 }}>
-          Click anywhere on the website below to leave feedback
+          Click anywhere on the website below to leave feedback — scroll to see more of the page
         </div>
       )}
 
       <div style={{ flex: 1, display: 'flex', overflow: 'hidden', position: 'relative' }}>
 
-        {/* Canvas area */}
-        <div style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#050505', padding: VIEWPORTS[viewport].width !== '100%' ? '16px' : '0' }}>
-          <div style={{ position: 'relative', width: VIEWPORTS[viewport].width, maxWidth: '100%', height: VIEWPORTS[viewport].width === '100%' ? '100%' : undefined, minHeight: VIEWPORTS[viewport].width !== '100%' ? 600 : undefined, flexShrink: 0 }}>
+        {/* Scrollable canvas area */}
+        <div
+          ref={canvasRef}
+          style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', alignItems: 'center', background: '#050505', padding: VIEWPORTS[viewport].width !== '100%' ? '16px' : '0' }}
+        >
+          {/* Iframe wrapper — sized to full content height */}
+          <div style={{ position: 'relative', width: VIEWPORTS[viewport].width, maxWidth: '100%', flexShrink: 0, height: iframeHeight }}>
 
-            {/* Iframe */}
             {!iframeError ? (
               <iframe
                 ref={iframeRef}
-                src={`/api/proxy?url=${encodeURIComponent(currentUrl)}`}
-                style={{ width: '100%', height: '100%', minHeight: 600, border: 'none', display: 'block', background: '#fff' }}
-                onLoad={() => setIframeLoaded(true)}
+                src={`/api/proxy?url=${encodeURIComponent(project.url)}`}
+                style={{ width: '100%', height: '100%', border: 'none', display: 'block', background: '#fff' }}
+                onLoad={handleIframeLoad}
                 onError={() => setIframeError(true)}
                 title={project.name}
                 sandbox="allow-same-origin allow-scripts allow-forms allow-popups"
               />
             ) : (
-              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#fff', height: 500, gap: 12 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', background: '#fff', height: '100%', gap: 12 }}>
                 <Info size={28} color='#999' />
                 <p style={{ color: '#666', fontSize: 14, textAlign: 'center', maxWidth: 320 }}>
                   This site can&apos;t be embedded. You can still leave feedback by position.
                 </p>
-                <a href={currentUrl} target="_blank" rel="noopener noreferrer"
+                <a href={project.url} target="_blank" rel="noopener noreferrer"
                   style={{ color: ACCENT, fontSize: 13 }}>Open site in new tab ↗</a>
               </div>
             )}
 
-            {/* Click overlay */}
-            <div
-              ref={overlayRef}
-              onClick={handleOverlayClick}
-              style={{
-                position: 'absolute', inset: 0, zIndex: 10,
-                cursor: mode === 'annotate' ? 'crosshair' : 'default',
-                pointerEvents: mode === 'annotate' || showPins ? 'auto' : 'none',
-                background: mode === 'annotate' ? 'rgba(34,197,94,0.04)' : 'transparent',
-              }}
-            >
-              {/* Feedback pins */}
-              {showPins && feedback.map((item, idx) => {
-                if (item.x_percent == null || item.y_percent == null) return null
-                const isSelected = selectedPin?.id === item.id
-                return (
-                  <button
-                    key={item.id}
-                    className="pin-appear"
-                    onClick={(e) => { e.stopPropagation(); setSelectedPin(isSelected ? null : item); setClickPos(null) }}
-                    style={{
-                      position: 'absolute',
-                      left: `${item.x_percent}%`,
-                      top: `${item.y_percent}%`,
-                      transform: 'translate(-50%, -50%)',
-                      width: 28, height: 28,
-                      borderRadius: '50% 50% 50% 0',
-                      background: item.status === 'resolved' ? ACCENT : '#f97316',
-                      color: '#fff',
-                      fontSize: 11, fontWeight: 900,
-                      border: `2px solid ${isSelected ? '#fff' : 'transparent'}`,
-                      cursor: 'pointer',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
-                      zIndex: 20,
-                    }}
-                  >
-                    {idx + 1}
+            {/* Annotation overlay — only captures events in annotate mode, forwards scroll always */}
+            {mode === 'annotate' && (
+              <div
+                onClick={handleOverlayClick}
+                onWheel={handleOverlayWheel}
+                style={{
+                  position: 'absolute', inset: 0, zIndex: 10,
+                  cursor: 'crosshair',
+                  background: 'rgba(34,197,94,0.04)',
+                }}
+              />
+            )}
+
+            {/* Pins — always on top, always interactive regardless of mode */}
+            {showPins && feedback.map((item, idx) => {
+              if (item.x_percent == null || item.y_percent == null) return null
+              const isSelected = selectedPin?.id === item.id
+              return (
+                <button
+                  key={item.id}
+                  className="pin-appear"
+                  onClick={(e) => { e.stopPropagation(); setSelectedPin(isSelected ? null : item); setClickPos(null) }}
+                  style={{
+                    position: 'absolute',
+                    left: `${item.x_percent}%`,
+                    top: `${item.y_percent}%`,
+                    transform: 'translate(-50%, -50%)',
+                    width: 28, height: 28,
+                    borderRadius: '50% 50% 50% 0',
+                    background: item.status === 'resolved' ? ACCENT : '#f97316',
+                    color: '#fff',
+                    fontSize: 11, fontWeight: 900,
+                    border: `2px solid ${isSelected ? '#fff' : 'transparent'}`,
+                    cursor: 'pointer',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.4)',
+                    zIndex: 20,
+                    pointerEvents: 'auto',
+                  }}
+                >
+                  {idx + 1}
+                </button>
+              )
+            })}
+
+            {/* Pin tooltip */}
+            {selectedPin && selectedPin.x_percent != null && selectedPin.y_percent != null && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: `${selectedPin.x_percent}%`,
+                  top: `${selectedPin.y_percent}%`,
+                  transform: 'translate(-50%, 20px)',
+                  background: '#161616',
+                  border: `1px solid ${BORDER}`,
+                  borderRadius: 10,
+                  padding: 14,
+                  maxWidth: 260,
+                  zIndex: 30,
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+                  pointerEvents: 'auto',
+                }}
+                onClick={e => e.stopPropagation()}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8, gap: 8 }}>
+                  <div style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>{selectedPin.reviewer_name || 'Anonymous'}</div>
+                  <button onClick={() => setSelectedPin(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: BODY, padding: 0 }}>
+                    <X size={12} />
                   </button>
-                )
-              })}
-
-              {/* Pin tooltip */}
-              {selectedPin && selectedPin.x_percent != null && selectedPin.y_percent != null && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: `${selectedPin.x_percent}%`,
-                    top: `${selectedPin.y_percent}%`,
-                    transform: 'translate(-50%, 20px)',
-                    background: '#161616',
-                    border: `1px solid ${BORDER}`,
-                    borderRadius: 10,
-                    padding: 14,
-                    maxWidth: 260,
-                    zIndex: 30,
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-                  }}
-                  onClick={e => e.stopPropagation()}
-                >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8, gap: 8 }}>
-                    <div style={{ fontSize: 12, fontWeight: 700, color: '#fff' }}>{selectedPin.reviewer_name || 'Anonymous'}</div>
-                    <button onClick={() => setSelectedPin(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: BODY, padding: 0 }}>
-                      <X size={12} />
-                    </button>
-                  </div>
-                  <p style={{ fontSize: 13, color: '#ddd', lineHeight: 1.5, marginBottom: 8 }}>{selectedPin.comment}</p>
-                  <div style={{ fontSize: 11, color: BODY }}>{timeAgo(selectedPin.created_at)}</div>
                 </div>
-              )}
+                <p style={{ fontSize: 13, color: '#ddd', lineHeight: 1.5, marginBottom: 8 }}>{selectedPin.comment}</p>
+                <div style={{ fontSize: 11, color: BODY }}>{timeAgo(selectedPin.created_at)}</div>
+              </div>
+            )}
 
-              {/* New comment form */}
-              {clickPos && mode === 'annotate' && (
-                <div
-                  style={{
-                    position: 'absolute',
-                    left: Math.min(clickPos.x, overlayRef.current ? overlayRef.current.offsetWidth - 300 : clickPos.x),
-                    top: clickPos.y + 20,
-                    width: 280,
-                    background: '#161616',
-                    border: `1px solid ${ACCENT}40`,
-                    borderRadius: 12,
-                    padding: 16,
-                    zIndex: 50,
-                    boxShadow: `0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px ${ACCENT}20`,
-                  }}
-                  onClick={e => e.stopPropagation()}
-                >
-                  {/* Crosshair indicator */}
-                  <div style={{ position: 'absolute', left: clickPos.x - Math.min(clickPos.x, overlayRef.current ? overlayRef.current.offsetWidth - 300 : clickPos.x) - 4, top: -8, width: 8, height: 8, borderRadius: '50%', background: ACCENT }} />
+            {/* New comment form */}
+            {clickPos && mode === 'annotate' && (
+              <div
+                style={{
+                  position: 'absolute',
+                  left: Math.min(clickPos.x, (iframeRef.current?.offsetWidth || 800) - 300),
+                  top: clickPos.y + 20,
+                  width: 280,
+                  background: '#161616',
+                  border: `1px solid ${ACCENT}40`,
+                  borderRadius: 12,
+                  padding: 16,
+                  zIndex: 50,
+                  boxShadow: `0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px ${ACCENT}20`,
+                  pointerEvents: 'auto',
+                }}
+                onClick={e => e.stopPropagation()}
+              >
+                <div style={{ fontSize: 12, fontWeight: 700, color: ACCENT, marginBottom: 10 }}>Leave Feedback</div>
 
-                  <div style={{ fontSize: 12, fontWeight: 700, color: ACCENT, marginBottom: 10 }}>Leave Feedback</div>
+                {!guestInfoSaved && (
+                  <>
+                    <input value={name} onChange={e => setName(e.target.value)} placeholder="Your name *"
+                      style={{ width: '100%', background: BG, border: `1px solid ${BORDER}`, borderRadius: 7, padding: '8px 10px', color: '#fff', fontSize: 12, marginBottom: 6, outline: 'none', boxSizing: 'border-box' }} />
+                    <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email (optional)"
+                      style={{ width: '100%', background: BG, border: `1px solid ${BORDER}`, borderRadius: 7, padding: '8px 10px', color: '#fff', fontSize: 12, marginBottom: 6, outline: 'none', boxSizing: 'border-box' }} />
+                  </>
+                )}
 
-                  {!guestInfoSaved && (
-                    <>
-                      <input value={name} onChange={e => setName(e.target.value)} placeholder="Your name *"
-                        style={{ width: '100%', background: BG, border: `1px solid ${BORDER}`, borderRadius: 7, padding: '8px 10px', color: '#fff', fontSize: 12, marginBottom: 6, outline: 'none' }} />
-                      <input value={email} onChange={e => setEmail(e.target.value)} placeholder="Email (optional)"
-                        style={{ width: '100%', background: BG, border: `1px solid ${BORDER}`, borderRadius: 7, padding: '8px 10px', color: '#fff', fontSize: 12, marginBottom: 6, outline: 'none' }} />
-                    </>
-                  )}
-
-                  {guestInfoSaved && (
-                    <div style={{ fontSize: 12, color: BODY, marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span>As <span style={{ color: '#fff' }}>{name}</span></span>
-                      <button onClick={() => setGuestInfoSaved(false)} style={{ background: 'none', border: 'none', color: BODY, cursor: 'pointer', fontSize: 11 }}>Change</button>
-                    </div>
-                  )}
-
-                  <textarea
-                    value={comment}
-                    onChange={e => setComment(e.target.value)}
-                    placeholder="Describe the issue or suggestion..."
-                    rows={3}
-                    autoFocus
-                    onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submitFeedback() }}
-                    style={{ width: '100%', background: BG, border: `1px solid ${BORDER}`, borderRadius: 7, padding: '8px 10px', color: '#fff', fontSize: 12, resize: 'none', outline: 'none', lineHeight: 1.5 }}
-                  />
-
-                  <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
-                    <button onClick={cancelComment}
-                      style={{ flex: 1, padding: '8px', background: 'transparent', border: `1px solid ${BORDER}`, borderRadius: 7, color: BODY, fontSize: 12, cursor: 'pointer' }}>
-                      Cancel
-                    </button>
-                    <button onClick={submitFeedback} disabled={submitting || !comment.trim() || !name.trim()}
-                      style={{ flex: 2, padding: '8px', background: ACCENT, color: ACCENT_TEXT, border: 'none', borderRadius: 7, fontSize: 12, fontWeight: 800, cursor: submitting || !comment.trim() || !name.trim() ? 'not-allowed' : 'pointer', opacity: submitting ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-                      {submitting ? <span className="spinner" style={{ width: 14, height: 14 }} /> : <><Send size={12} /> Submit</>}
-                    </button>
+                {guestInfoSaved && (
+                  <div style={{ fontSize: 12, color: BODY, marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span>As <span style={{ color: '#fff' }}>{name}</span></span>
+                    <button onClick={() => setGuestInfoSaved(false)} style={{ background: 'none', border: 'none', color: BODY, cursor: 'pointer', fontSize: 11 }}>Change</button>
                   </div>
-                  <div style={{ fontSize: 10, color: '#444', marginTop: 6, textAlign: 'center' }}>⌘+Enter to submit</div>
+                )}
+
+                <textarea
+                  value={comment}
+                  onChange={e => setComment(e.target.value)}
+                  placeholder="Describe the issue or suggestion..."
+                  rows={3}
+                  autoFocus
+                  onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) submitFeedback() }}
+                  style={{ width: '100%', background: BG, border: `1px solid ${BORDER}`, borderRadius: 7, padding: '8px 10px', color: '#fff', fontSize: 12, resize: 'none', outline: 'none', lineHeight: 1.5, boxSizing: 'border-box' }}
+                />
+
+                <div style={{ display: 'flex', gap: 8, marginTop: 8 }}>
+                  <button onClick={() => { setClickPos(null); setComment('') }}
+                    style={{ flex: 1, padding: '8px', background: 'transparent', border: `1px solid ${BORDER}`, borderRadius: 7, color: BODY, fontSize: 12, cursor: 'pointer' }}>
+                    Cancel
+                  </button>
+                  <button onClick={submitFeedback} disabled={submitting || !comment.trim() || !name.trim()}
+                    style={{ flex: 2, padding: '8px', background: ACCENT, color: ACCENT_TEXT, border: 'none', borderRadius: 7, fontSize: 12, fontWeight: 800, cursor: submitting || !comment.trim() || !name.trim() ? 'not-allowed' : 'pointer', opacity: submitting ? 0.7 : 1, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>
+                    {submitting ? <span className="spinner" style={{ width: 14, height: 14 }} /> : <><Send size={12} /> Submit</>}
+                  </button>
                 </div>
-              )}
-            </div>
+                <div style={{ fontSize: 10, color: '#444', marginTop: 6, textAlign: 'center' }}>⌘+Enter to submit</div>
+              </div>
+            )}
           </div>
         </div>
 
