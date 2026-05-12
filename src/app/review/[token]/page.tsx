@@ -37,7 +37,7 @@ export default async function ReviewPage({
     .from('feedback_items')
     .select(`
       id, comment, x_percent, y_percent, page_url, status, priority,
-      reviewer_name, created_at, viewport_width, viewport_height,
+      reviewer_name, created_at, viewport_width, viewport_height, browser_info,
       feedback_replies(id, comment, author_name, created_at)
     `)
     .eq('project_id', project.id)
@@ -60,6 +60,7 @@ export default async function ReviewPage({
           status: f.status,
           reviewer_name: f.reviewer_name,
           created_at: f.created_at,
+          browser_info: f.browser_info as { device?: string; browser?: string; os?: string } | null,
         }))}
       />
     )

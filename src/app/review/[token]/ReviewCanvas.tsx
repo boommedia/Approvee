@@ -13,6 +13,12 @@ const BODY = '#888888'
 const BG = '#0a0a0a'
 const MUTED = '#111111'
 
+type BrowserInfo = {
+  device?: string
+  browser?: string
+  os?: string
+} | null
+
 type Feedback = {
   id: string
   comment: string
@@ -22,6 +28,7 @@ type Feedback = {
   status: string
   reviewer_name: string | null
   created_at: string
+  browser_info?: BrowserInfo
 }
 
 type Project = {
@@ -255,9 +262,12 @@ export default function ReviewCanvas({
               />
             )}
 
-            {/* Pins — always on top, always interactive regardless of mode */}
+            {/* Pins — filtered to current viewport device only */}
             {showPins && feedback.map((item, idx) => {
               if (item.x_percent == null || item.y_percent == null) return null
+              // Only show pins placed on the current viewport (no device = Desktop legacy)
+              const pinDevice = item.browser_info?.device || 'Desktop'
+              if (pinDevice !== VIEWPORTS[viewport].label) return null
               const isSelected = selectedPin?.id === item.id
               return (
                 <button
@@ -312,8 +322,17 @@ export default function ReviewCanvas({
                     <X size={12} />
                   </button>
                 </div>
-                <p style={{ fontSize: 13, color: '#ddd', lineHeight: 1.5, marginBottom: 8 }}>{selectedPin.comment}</p>
-                <div style={{ fontSize: 11, color: BODY }}>{timeAgo(selectedPin.created_at)}</div>
+                <p style={{ fontSize: 13, color: '#ddd', lineHeight: 1.5, marginBottom: 10 }}>{selectedPin.comment}</p>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <div style={{ fontSize: 11, color: BODY }}>{timeAgo(selectedPin.created_at)}</div>
+                  {selectedPin.browser_info?.device && (
+                    <span style={{ fontSize: 10, fontWeight: 700, color: '#555', background: '#1a1a1a', border: '1px solid #2a2a2a', padding: '2px 7px', borderRadius: 99, display: 'flex', alignItems: 'center', gap: 4 }}>
+                      {selectedPin.browser_info.device === 'Mobile' ? <Smartphone size={9} /> : selectedPin.browser_info.device === 'Tablet' ? <Tablet size={9} /> : <Monitor size={9} />}
+                      {selectedPin.browser_info.device}
+                      {selectedPin.browser_info.browser ? ` · ${selectedPin.browser_info.browser}` : ''}
+                    </span>
+                  )}
+                </div>
               </div>
             )}
 
