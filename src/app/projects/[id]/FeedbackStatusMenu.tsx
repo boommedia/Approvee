@@ -42,7 +42,7 @@ export default function FeedbackStatusMenu({ itemId, currentStatus }: { itemId: 
         Update Status <ChevronDown size={12} />
       </button>
       {open && (
-        <div style={{ position: 'absolute', top: '100%', left: 0, marginTop: 4, background: '#161616', border: `1px solid ${BORDER}`, borderRadius: 10, overflow: 'hidden', zIndex: 10, minWidth: 150, boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
+        <div style={{ position: 'absolute', top: '100%', left: 0, marginTop: 4, background: '#161616', border: `1px solid ${BORDER}`, borderRadius: 10, overflow: 'hidden', zIndex: 100, minWidth: 150, boxShadow: '0 8px 24px rgba(0,0,0,0.4)' }}>
           {STATUSES.map(s => (
             <button key={s.value} onClick={() => updateStatus(s.value)}
               style={{ display: 'block', width: '100%', padding: '9px 14px', background: s.value === status ? `${STATUS_COLORS[s.value]}10` : 'transparent', color: s.value === status ? STATUS_COLORS[s.value] : '#ccc', fontSize: 13, fontWeight: s.value === status ? 700 : 400, textAlign: 'left', border: 'none', cursor: 'pointer' }}>

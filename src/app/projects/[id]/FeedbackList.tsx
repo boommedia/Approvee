@@ -70,7 +70,7 @@ export default function FeedbackList({ items, projectId }: { items: FeedbackItem
       {/* Feedback items */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
         {filtered.map(item => (
-          <div key={item.id} style={{ background: MUTED, border: `1px solid ${expanded === item.id ? ACCENT + '40' : BORDER}`, borderRadius: 12, overflow: 'hidden', transition: 'border-color 0.15s' }}>
+          <div key={item.id} style={{ background: MUTED, border: `1px solid ${expanded === item.id ? ACCENT + '40' : BORDER}`, borderRadius: 12, transition: 'border-color 0.15s', position: 'relative' }}>
             {/* Item header */}
             <div
               style={{ padding: '14px 18px', display: 'flex', alignItems: 'flex-start', gap: 12, cursor: 'pointer' }}
