@@ -65,6 +65,10 @@ export default function ClientPortal({
   )
   const [replyText, setReplyText] = useState<Record<string, string>>({})
   const [submitting, setSubmitting] = useState<string | null>(null)
+  const [statuses, setStatuses] = useState<Record<string, string>>(
+    Object.fromEntries(feedback.map(f => [f.id, f.status]))
+  )
+  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null)
   const [guestName, setGuestName] = useState('')
   const [guestEmail, setGuestEmail] = useState('')
   const [approving, setApproving] = useState(false)
@@ -114,6 +118,19 @@ export default function ClientPortal({
       setReplyText(prev => ({ ...prev, [feedbackId]: '' }))
     }
     setSubmitting(null)
+  }
+
+  async function updateStatus(feedbackId: string, newStatus: string) {
+    setUpdatingStatus(feedbackId)
+    const res = await fetch(`/api/feedback/${feedbackId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status: newStatus, token }),
+    })
+    if (res.ok) {
+      setStatuses(prev => ({ ...prev, [feedbackId]: newStatus }))
+    }
+    setUpdatingStatus(null)
   }
 
   async function approve() {
@@ -279,7 +296,8 @@ export default function ClientPortal({
           ) : filtered.map((item, idx) => {
             const isExp = expanded === item.id
             const itemReplies = replies[item.id] || []
-            const statusColor = STATUS_COLORS[item.status] || '#888'
+            const currentStatus = statuses[item.id] || item.status
+            const statusColor = STATUS_COLORS[currentStatus] || '#888'
             const feedbackIndex = feedback.findIndex(f => f.id === item.id) + 1
 
             return (
@@ -316,8 +334,8 @@ export default function ClientPortal({
 
                   {/* Status */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 800, color: statusColor, background: `${statusColor}12`, padding: '3px 8px', borderRadius: 99, flexShrink: 0 }}>
-                    {STATUS_ICON[item.status]}
-                    <span style={{ textTransform: 'capitalize' }}>{item.status.replace('_', ' ')}</span>
+                    {STATUS_ICON[currentStatus]}
+                    <span style={{ textTransform: 'capitalize' }}>{currentStatus.replace('_', ' ')}</span>
                   </div>
 
                   {/* Priority */}
@@ -355,6 +373,38 @@ export default function ClientPortal({
                           pin: {item.x_percent.toFixed(1)}%, {item.y_percent?.toFixed(1)}%
                         </span>
                       )}
+                    </div>
+
+                    {/* Status update */}
+                    <div style={{ marginBottom: 16 }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: '#444', textTransform: 'uppercase', letterSpacing: 0.5, marginBottom: 8 }}>Update Status</div>
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        {[
+                          { value: 'open', label: 'Open', color: '#f97316' },
+                          { value: 'in_progress', label: 'In Progress', color: '#3b82f6' },
+                          { value: 'resolved', label: 'Resolved', color: ACCENT },
+                          { value: 'wont_fix', label: "Won't Fix", color: '#6b7280' },
+                        ].map(s => (
+                          <button
+                            key={s.value}
+                            onClick={() => updateStatus(item.id, s.value)}
+                            disabled={updatingStatus === item.id}
+                            style={{
+                              display: 'flex', alignItems: 'center', gap: 5,
+                              padding: '6px 12px', borderRadius: 8, fontSize: 11, fontWeight: 700,
+                              cursor: updatingStatus === item.id ? 'wait' : 'pointer',
+                              border: `1px solid ${currentStatus === s.value ? s.color : '#2a2a2a'}`,
+                              background: currentStatus === s.value ? `${s.color}15` : 'transparent',
+                              color: currentStatus === s.value ? s.color : '#555',
+                              transition: 'all 0.15s',
+                              opacity: updatingStatus === item.id ? 0.6 : 1,
+                            }}
+                          >
+                            {currentStatus === s.value && <CheckCircle size={10} />}
+                            {s.label}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
                     {/* Replies */}
