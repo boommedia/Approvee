@@ -25,29 +25,29 @@ export const PLANS = {
     name: 'Free',
     price: 0,
     projects: 1,
-    members: 3,
-    storage_mb: 100,
-    features: ['1 project', '3 team members', 'Unlimited guests', 'Unlimited comments', '100 MB storage'],
+    members: 1,
+    storage_mb: 75,
+    features: ['1 project (lasts 30 days)', '1 team member', '20 guests', 'Unlimited comments', '75 MB storage'],
   },
   pro: {
     name: 'Pro',
-    price_monthly: 19,
-    price_yearly: 190,
-    projects: -1, // unlimited
-    members: 3,
-    storage_mb: 5120, // 5 GB
-    features: ['Unlimited projects', '3 team members', 'Unlimited guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', 'Comment pausing', '5 GB storage'],
+    price_monthly: 15,
+    price_yearly: 150,
+    projects: 20,
+    members: 4,
+    storage_mb: 2048, // 2 GB
+    features: ['20 projects', '4 team members', '40 guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', '2 GB storage', '7-day money-back guarantee'],
     priceIdMonthly: process.env.STRIPE_PRICE_PRO_MONTHLY,
     priceIdYearly: process.env.STRIPE_PRICE_PRO_YEARLY,
   },
   agency: {
     name: 'Agency',
-    price_monthly: 39,
-    price_yearly: 390,
-    projects: -1, // unlimited
-    members: 15,
-    storage_mb: 51200, // 50 GB
-    features: ['Unlimited projects', '15 team members', 'Unlimited guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', 'Comment pausing', 'White-label branding', '50 GB storage', 'Priority support'],
+    price_monthly: 35,
+    price_yearly: 350,
+    projects: 60,
+    members: 8,
+    storage_mb: 20480, // 20 GB
+    features: ['60 projects', '8 team members', '80 guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', 'White-label branding', '20 GB storage', 'Priority support', '7-day money-back guarantee'],
     priceIdMonthly: process.env.STRIPE_PRICE_AGENCY_MONTHLY,
     priceIdYearly: process.env.STRIPE_PRICE_AGENCY_YEARLY,
   },

@@ -68,28 +68,28 @@ const PLANS = [
     name: 'Free',
     price: '$0',
     priceYearly: '$0',
-    desc: 'Try Approvee with your first client project.',
-    features: ['1 project', '3 team members', 'Unlimited guests', 'Unlimited comments', '100 MB storage'],
+    desc: 'Try Approvee free. Projects last 30 days.',
+    features: ['1 project (lasts 30 days)', '1 team member', '20 guests', 'Unlimited comments', '75 MB storage'],
     highlight: false,
     cta: 'Start Free',
   },
   {
     name: 'Pro',
-    price: '$19',
-    priceYearly: '$190',
-    orig: '$38',
+    price: '$15',
+    priceYearly: '$150',
+    orig: '$30',
     desc: 'For freelancers running multiple client projects.',
-    features: ['Unlimited projects', '3 team members', 'Unlimited guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', '5 GB storage'],
+    features: ['20 projects', '4 team members', '40 guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', '2 GB storage'],
     highlight: true,
     cta: 'Start Free Trial',
   },
   {
     name: 'Agency',
-    price: '$39',
-    priceYearly: '$390',
-    orig: '$78',
+    price: '$35',
+    priceYearly: '$350',
+    orig: '$70',
     desc: 'For agencies with growing teams and client rosters.',
-    features: ['Unlimited projects', '15 team members', 'Unlimited guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', 'White-label branding', '50 GB storage', 'Priority support'],
+    features: ['60 projects', '8 team members', '80 guests', 'Kanban board', 'Inspect mode', 'Private comments', 'File attachments', 'White-label branding', '20 GB storage', 'Priority support'],
     highlight: false,
     cta: 'Start Free Trial',
   },
@@ -128,7 +128,7 @@ const FAQS = [
   },
   {
     q: 'Is there a per-seat pricing model?',
-    a: "No. Approvee charges per workspace, not per seat. Your client reviewers are always free and unlimited.",
+    a: "No. Approvee charges per workspace, not per seat. Guest reviewers (clients) are included in your plan limit and never billed individually.",
   },
   {
     q: 'Can I white-label Approvee for my clients?',
@@ -415,7 +415,7 @@ export default function Home() {
           ))}
         </div>
         <p style={{ textAlign: 'center', fontSize: 11, color: '#333', marginTop: 20 }}>
-          30-day money-back guarantee. Cancel anytime.
+          7-day money-back guarantee on paid plans · Free projects last 30 days · Cancel anytime.
         </p>
       </section>
 
