@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:huddlekit.com)",
+      "Read(//g/My Drive/AI/Claude/Projects/Boom Media/Rankee/**)",
+      "Bash(git init *)",
+      "Bash(git remote *)",
+      "Bash(git add *)"
+    ]
+  }
+}
