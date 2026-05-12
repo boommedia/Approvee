@@ -3,9 +3,10 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   CheckCircle, MessageSquare, ChevronDown, AlertCircle, Clock, XCircle,
-  Monitor, Tablet, Smartphone, Send, ThumbsUp, ExternalLink,
+  Monitor, Tablet, Smartphone, Send, ThumbsUp, ExternalLink, List, LayoutDashboard,
 } from 'lucide-react'
 import { timeAgo, STATUS_COLORS, PRIORITY_COLORS } from '@/lib/utils'
+import KanbanBoard from './KanbanBoard'
 
 const ACCENT = '#22c55e'
 const BORDER = '#1a1a1a'
@@ -74,6 +75,7 @@ export default function ClientPortal({
   const [approving, setApproving] = useState(false)
   const [approved, setApproved] = useState(project.status === 'approved')
   const [filter, setFilter] = useState<string>('all')
+  const [view, setView] = useState<'list' | 'kanban'>('list')
   const [showIdentity, setShowIdentity] = useState(false)
 
   useEffect(() => {
@@ -270,24 +272,52 @@ export default function ClientPortal({
       {/* Main content */}
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '24px 28px' }}>
 
-        {/* Feedback list header + filters */}
+        {/* Feedback list header + filters + view toggle */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14, flexWrap: 'wrap', gap: 10 }}>
           <div>
             <h2 style={{ fontSize: 15, fontWeight: 800, color: '#fff' }}>Feedback Items</h2>
             <p style={{ fontSize: 12, color: '#555', marginTop: 2 }}>{total} total · {counts.open} open</p>
           </div>
-          <div style={{ display: 'flex', gap: 2, background: MUTED, border: `1px solid ${BORDER}`, borderRadius: 9, padding: 3 }}>
-            {['all', 'open', 'in_progress', 'resolved'] .map(s => (
-              <button key={s} onClick={() => setFilter(s)}
-                style={{ padding: '5px 11px', borderRadius: 6, background: filter === s ? '#1c1c1c' : 'transparent', color: filter === s ? '#fff' : '#555', fontSize: 11, fontWeight: filter === s ? 700 : 400, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                {s === 'all' ? `All (${total})` : s === 'in_progress' ? 'In Progress' : s.charAt(0).toUpperCase() + s.slice(1)}
+          <div style={{ display: 'flex', gap: 8, alignItems: 'center', flexWrap: 'wrap' }}>
+            {/* View toggle */}
+            <div style={{ display: 'flex', background: MUTED, border: `1px solid ${BORDER}`, borderRadius: 8, padding: 3, gap: 2 }}>
+              <button onClick={() => setView('list')}
+                style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 10px', borderRadius: 6, background: view === 'list' ? '#1c1c1c' : 'transparent', color: view === 'list' ? '#fff' : '#555', fontSize: 11, fontWeight: view === 'list' ? 700 : 400, border: 'none', cursor: 'pointer' }}>
+                <List size={12} /> List
               </button>
-            ))}
+              <button onClick={() => setView('kanban')}
+                style={{ display: 'flex', alignItems: 'center', gap: 5, padding: '5px 10px', borderRadius: 6, background: view === 'kanban' ? '#1c1c1c' : 'transparent', color: view === 'kanban' ? ACCENT : '#555', fontSize: 11, fontWeight: view === 'kanban' ? 700 : 400, border: 'none', cursor: 'pointer' }}>
+                <LayoutDashboard size={12} /> Kanban
+              </button>
+            </div>
+            {/* Filter tabs — list view only */}
+            {view === 'list' && (
+              <div style={{ display: 'flex', gap: 2, background: MUTED, border: `1px solid ${BORDER}`, borderRadius: 9, padding: 3 }}>
+                {['all', 'open', 'in_progress', 'resolved'].map(s => (
+                  <button key={s} onClick={() => setFilter(s)}
+                    style={{ padding: '5px 11px', borderRadius: 6, background: filter === s ? '#1c1c1c' : 'transparent', color: filter === s ? '#fff' : '#555', fontSize: 11, fontWeight: filter === s ? 700 : 400, border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}>
+                    {s === 'all' ? `All (${total})` : s === 'in_progress' ? 'In Progress' : s.charAt(0).toUpperCase() + s.slice(1)}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        {/* Feedback items */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 32 }}>
+        {/* Kanban view */}
+        {view === 'kanban' && (
+          <div style={{ marginBottom: 32 }}>
+            <KanbanBoard
+              feedback={feedback}
+              statuses={statuses}
+              updatingStatus={updatingStatus}
+              onUpdateStatus={updateStatus}
+            />
+          </div>
+        )}
+
+        {/* List view */}
+        <div style={{ display: view === 'list' ? 'flex' : 'none', flexDirection: 'column', gap: 6, marginBottom: 32 }}>
           {filtered.length === 0 ? (
             <div style={{ background: MUTED, border: `1px solid ${BORDER}`, borderRadius: 12, padding: '40px 24px', textAlign: 'center', color: '#444' }}>
               <MessageSquare size={24} style={{ margin: '0 auto 10px', display: 'block' }} />
