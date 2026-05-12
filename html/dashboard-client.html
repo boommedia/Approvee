@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Approvee — Client Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+
+    /* PREVIEW NAV */
+    .topnav { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 10px 20px; display: flex; gap: 16px; align-items: center; font-size: 12px; flex-wrap: wrap; }
+    .topnav a { color: #888; text-decoration: none; padding: 4px 8px; border-radius: 5px; }
+    .topnav a:hover { color: #fff; background: #1a1a1a; }
+    .badge-label { background: rgba(59,130,246,0.15); color: #3b82f6; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 99px; letter-spacing: 0.5px; }
+    .logo-icon { width: 26px; height: 26px; background: #22c55e; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #000; }
+
+    /* MAIN HEADER */
+    .site-header { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .header-brand { display: flex; align-items: center; gap: 10px; }
+    .hb-logo { width: 34px; height: 34px; background: #22c55e; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 900; color: #000; }
+    .hb-name { font-weight: 900; font-size: 16px; }
+    .hb-sub { font-size: 11px; color: #555; margin-top: 1px; }
+    .header-client { display: flex; align-items: center; gap: 10px; }
+    .hc-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(59,130,246,0.12); color: #3b82f6; font-size: 13px; font-weight: 900; display: flex; align-items: center; justify-content: center; }
+    .hc-name { font-size: 13px; font-weight: 700; }
+    .hc-role { font-size: 11px; color: #555; }
+
+    /* HERO BANNER */
+    .hero-banner { background: linear-gradient(135deg, #0f1a0f, #0a0a0a); border-bottom: 1px solid #1a1a1a; padding: 32px 32px 28px; }
+    .hb-eyebrow { font-size: 11px; font-weight: 800; color: #22c55e; text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 8px; }
+    .hb-title { font-size: 26px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 6px; }
+    .hb-desc { font-size: 14px; color: #666; margin-bottom: 20px; line-height: 1.5; }
+
+    /* PROGRESS BAR */
+    .progress-row { display: flex; align-items: center; gap: 16px; }
+    .progress-wrap { flex: 1; max-width: 500px; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 12px; color: #555; margin-bottom: 7px; }
+    .progress-label strong { color: #fff; }
+    .progress-bar { height: 8px; background: #1a1a1a; border-radius: 4px; overflow: hidden; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #16a34a); border-radius: 4px; transition: width 0.4s; }
+    .progress-pct { font-size: 20px; font-weight: 900; color: #22c55e; }
+    .progress-pct span { font-size: 12px; color: #555; font-weight: 400; }
+
+    /* STATUS PILLS */
+    .status-pills { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+    .s-pill { display: flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 99px; border: 1px solid; font-size: 12px; font-weight: 700; }
+    .sp-open { border-color: rgba(249,115,22,0.3); background: rgba(249,115,22,0.07); color: #f97316; }
+    .sp-prog { border-color: rgba(59,130,246,0.3); background: rgba(59,130,246,0.07); color: #3b82f6; }
+    .sp-done { border-color: rgba(34,197,94,0.3); background: rgba(34,197,94,0.07); color: #22c55e; }
+    .sp-wait { border-color: rgba(107,114,128,0.2); background: rgba(107,114,128,0.05); color: #6b7280; }
+    .pill-num { font-size: 16px; font-weight: 900; }
+
+    /* PAGE CONTENT */
+    .page { max-width: 960px; margin: 0 auto; padding: 28px 32px; }
+
+    /* SECTION HEADER */
+    .sec-hd { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .sec-title { font-size: 15px; font-weight: 800; }
+    .sec-sub { font-size: 12px; color: #555; margin-top: 2px; }
+    .sec-link { font-size: 12px; color: #22c55e; cursor: pointer; text-decoration: none; }
+
+    /* REVIEW BUTTON CARD */
+    .review-cta { background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.03)); border: 1px solid rgba(34,197,94,0.2); border-radius: 16px; padding: 22px 24px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 24px; gap: 20px; }
+    .rc-left { }
+    .rc-tag { font-size: 10px; font-weight: 800; color: #22c55e; text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 6px; }
+    .rc-title { font-size: 16px; font-weight: 800; margin-bottom: 4px; }
+    .rc-sub { font-size: 12px; color: #666; }
+    .rc-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .rc-btn-primary { background: #22c55e; color: #000; font-weight: 800; font-size: 13px; padding: 11px 20px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .rc-btn-secondary { background: #161616; border: 1px solid #1a1a1a; color: #bbb; font-weight: 600; font-size: 12px; padding: 10px 16px; border-radius: 10px; cursor: pointer; white-space: nowrap; }
+
+    /* FEEDBACK TIMELINE */
+    .fb-timeline { display: flex; flex-direction: column; gap: 2px; margin-bottom: 32px; }
+    .ft-item { background: #111; border: 1px solid #1a1a1a; border-radius: 12px; overflow: hidden; transition: border-color 0.15s; }
+    .ft-item:hover { border-color: #2a2a2a; }
+    .ft-item.expanded { border-color: #22c55e30; }
+    .ft-header { display: grid; grid-template-columns: 26px 1fr auto auto; align-items: center; padding: 14px 16px; gap: 12px; cursor: pointer; }
+    .ft-pin { width: 26px; height: 26px; border-radius: 50% 50% 50% 0; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; color: #000; flex-shrink: 0; }
+    .pin-open { background: #f97316; }
+    .pin-prog { background: #3b82f6; color: #fff; }
+    .pin-done { background: #22c55e; }
+    .ft-main { min-width: 0; }
+    .ft-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .ft-meta { font-size: 11px; color: #555; display: flex; gap: 10px; }
+    .ft-status { }
+    .st-pill { font-size: 10px; font-weight: 800; padding: 3px 9px; border-radius: 99px; white-space: nowrap; }
+    .stp-open { background: rgba(249,115,22,0.1); color: #f97316; }
+    .stp-prog { background: rgba(59,130,246,0.1); color: #3b82f6; }
+    .stp-done { background: rgba(34,197,94,0.1); color: #22c55e; }
+    .stp-wont { background: rgba(107,114,128,0.1); color: #6b7280; }
+    .ft-priority { }
+    .pr-pill { font-size: 9px; font-weight: 800; padding: 2px 7px; border-radius: 99px; }
+    .pr-crit { background: rgba(239,68,68,0.1); color: #ef4444; }
+    .pr-hi { background: rgba(249,115,22,0.1); color: #f97316; }
+    .pr-no { background: rgba(59,130,246,0.1); color: #3b82f6; }
+    .pr-lo { background: rgba(107,114,128,0.1); color: #6b7280; }
+    .ft-chevron { color: #333; font-size: 13px; transition: transform 0.2s; }
+    .ft-item.expanded .ft-chevron { transform: rotate(180deg); color: #555; }
+
+    .ft-body { border-top: 1px solid #1a1a1a; padding: 16px; background: #0e0e0e; }
+    .ft-screenshot { background: #161616; border: 1px solid #1a1a1a; border-radius: 9px; padding: 12px; margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
+    .ft-coord { font-size: 10px; color: #444; font-family: monospace; }
+    .ft-viewport { font-size: 10px; color: #444; }
+    .ft-comment-text { font-size: 13px; color: #ccc; line-height: 1.6; background: #161616; border-radius: 9px; padding: 12px 14px; margin-bottom: 14px; border-left: 3px solid #f97316; }
+    .ft-comment-text.blue-border { border-left-color: #3b82f6; }
+    .ft-comment-text.green-border { border-left-color: #22c55e; }
+
+    /* THREAD */
+    .thread { display: flex; flex-direction: column; gap: 10px; margin-bottom: 14px; }
+    .thread-msg { display: flex; gap: 10px; align-items: flex-start; }
+    .tm-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 900; flex-shrink: 0; }
+    .tma-client { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .tma-agency { background: rgba(34,197,94,0.12); color: #22c55e; }
+    .tm-bubble { flex: 1; background: #1a1a1a; border-radius: 0 10px 10px 10px; padding: 10px 12px; }
+    .tm-bubble.agency { border-radius: 10px 0 10px 10px; background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.1); }
+    .tm-name { font-size: 11px; font-weight: 700; margin-bottom: 4px; }
+    .tm-name span { font-size: 10px; color: #444; font-weight: 400; margin-left: 6px; }
+    .tm-text { font-size: 12px; color: #bbb; line-height: 1.5; }
+
+    /* REPLY BOX */
+    .reply-box { background: #161616; border: 1px solid #1a1a1a; border-radius: 10px; padding: 10px 12px; display: flex; gap: 10px; align-items: flex-end; }
+    .reply-input { flex: 1; background: transparent; border: none; color: #ccc; font-size: 12px; resize: none; outline: none; font-family: inherit; min-height: 36px; line-height: 1.5; }
+    .reply-input::placeholder { color: #333; }
+    .reply-send { background: #22c55e; color: #000; font-weight: 800; font-size: 11px; padding: 7px 12px; border-radius: 7px; cursor: pointer; flex-shrink: 0; border: none; }
+
+    /* APPROVAL SECTION */
+    .approval-card { background: linear-gradient(135deg, rgba(34,197,94,0.06), rgba(34,197,94,0.02)); border: 1px solid rgba(34,197,94,0.15); border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+    .ac-icon { font-size: 28px; margin-bottom: 12px; }
+    .ac-title { font-size: 17px; font-weight: 900; margin-bottom: 6px; }
+    .ac-sub { font-size: 13px; color: #666; margin-bottom: 20px; line-height: 1.5; max-width: 480px; }
+    .ac-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .ac-approve { background: #22c55e; color: #000; font-weight: 800; font-size: 14px; padding: 12px 24px; border-radius: 11px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .ac-request { background: #161616; border: 1px solid #1a1a1a; color: #fff; font-weight: 700; font-size: 13px; padding: 11px 20px; border-radius: 11px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .ac-request:hover { border-color: #2a2a2a; }
+    .ac-note { font-size: 11px; color: #444; margin-top: 12px; display: flex; align-items: center; gap: 6px; }
+
+    /* HISTORY */
+    .history-list { display: flex; flex-direction: column; gap: 0; }
+    .hist-item { display: flex; gap: 14px; padding: 14px 0; border-bottom: 1px solid #141414; }
+    .hist-item:last-child { border-bottom: none; }
+    .hist-dot-wrap { display: flex; flex-direction: column; align-items: center; }
+    .hist-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+    .hd-green { background: #22c55e; }
+    .hd-blue { background: #3b82f6; }
+    .hd-orange { background: #f97316; }
+    .hd-gray { background: #444; }
+    .hist-line { width: 1px; background: #1a1a1a; flex: 1; margin-top: 4px; }
+    .hist-content { flex: 1; }
+    .hist-title { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+    .hist-sub { font-size: 11px; color: #555; }
+    .hist-badge { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 99px; display: inline-block; margin-top: 4px; }
+    .hb-res { background: rgba(34,197,94,0.1); color: #22c55e; }
+    .hb-open { background: rgba(249,115,22,0.1); color: #f97316; }
+    .hb-prog { background: rgba(59,130,246,0.1); color: #3b82f6; }
+
+    /* TABS */
+    .tabs { display: flex; gap: 2px; background: #111; border: 1px solid #1a1a1a; border-radius: 10px; padding: 4px; margin-bottom: 20px; width: fit-content; }
+    .tab { padding: 7px 16px; border-radius: 7px; font-size: 12px; font-weight: 600; color: #555; cursor: pointer; }
+    .tab.active { background: #1c1c1c; color: #fff; }
+    .tab:hover:not(.active) { color: #888; }
+  </style>
+</head>
+<body>
+
+<!-- Preview Nav -->
+<div class="topnav">
+  <div style="display:flex;align-items:center;gap:6px;font-weight:800;">
+    <div class="logo-icon">✓</div>
+    <span>Approvee</span>
+  </div>
+  <span class="badge-label">CLIENT VIEW</span>
+  <a href="index.html">← Home</a>
+  <a href="dashboard-admin.html">Admin Dashboard</a>
+  <a href="review.html">Review Canvas</a>
+  <a href="components.html">Components</a>
+  <a href="landing.html">Landing</a>
+</div>
+
+<!-- MAIN HEADER (what the client sees) -->
+<div class="site-header">
+  <div class="header-brand">
+    <div class="hb-logo">✓</div>
+    <div>
+      <div class="hb-name">Approvee</div>
+      <div class="hb-sub">Powered by Boom Media</div>
+    </div>
+  </div>
+  <div class="header-client">
+    <div>
+      <div style="text-align:right;font-size:11px;color:#555;margin-bottom:3px;">Reviewing for</div>
+      <div style="font-size:12px;font-weight:700;text-align:right;">Boom Media · Eric C.</div>
+    </div>
+    <div class="hc-avatar">SC</div>
+  </div>
+</div>
+
+<!-- HERO BANNER -->
+<div class="hero-banner">
+  <div style="max-width:960px;margin:0 auto;">
+    <div class="hb-eyebrow">● Acme Corp Redesign</div>
+    <div class="hb-title">Your Website Review</div>
+    <div class="hb-desc">Leave comments directly on your site and track progress as the team works through each item.</div>
+
+    <div class="progress-row">
+      <div class="progress-wrap">
+        <div class="progress-label"><span>Overall completion</span><strong>14% resolved</strong></div>
+        <div class="progress-bar"><div class="progress-fill" style="width:14%;"></div></div>
+      </div>
+      <div class="progress-pct">14<span>%</span></div>
+    </div>
+
+    <div class="status-pills">
+      <div class="s-pill sp-open"><span class="pill-num">4</span> Open</div>
+      <div class="s-pill sp-prog"><span class="pill-num">2</span> In Progress</div>
+      <div class="s-pill sp-done"><span class="pill-num">1</span> Resolved</div>
+      <div class="s-pill sp-wait"><span class="pill-num">0</span> Won't Fix</div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE CONTENT -->
+<div class="page">
+
+  <!-- REVIEW CTA -->
+  <div class="review-cta">
+    <div class="rc-left">
+      <div class="rc-tag">🎯 Live Review Mode</div>
+      <div class="rc-title">Open the interactive review canvas</div>
+      <div class="rc-sub">Click anywhere on your website to leave pinned comments. Browse all pages, switch viewports.</div>
+    </div>
+    <div class="rc-right">
+      <div class="rc-btn-secondary">↗ View only</div>
+      <div class="rc-btn-primary">✎ Open & Annotate →</div>
+    </div>
+  </div>
+
+  <!-- FEEDBACK TIMELINE -->
+  <div class="sec-hd">
+    <div>
+      <div class="sec-title">Feedback Items</div>
+      <div class="sec-sub">All comments and change requests for this project</div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <div class="tabs" style="margin-bottom:0;">
+        <div class="tab active">All (7)</div>
+        <div class="tab">Open (4)</div>
+        <div class="tab">Done (1)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fb-timeline">
+
+    <!-- ITEM 1 — Critical, Open, expanded -->
+    <div class="ft-item expanded" style="margin-bottom:8px;">
+      <div class="ft-header">
+        <div class="ft-pin pin-open">1</div>
+        <div class="ft-main">
+          <div class="ft-title">Contact form "Submit" button has wrong brand color</div>
+          <div class="ft-meta">
+            <span>You · 4 days ago</span>
+            <span>·</span>
+            <span>🖥 1920×1080</span>
+            <span>·</span>
+            <span>Contact page</span>
+          </div>
+        </div>
+        <div><span class="st-pill stp-open">⚠ Open</span></div>
+        <div><span class="pr-pill pr-crit">critical</span></div>
+        <div class="ft-chevron">⌃</div>
+      </div>
+      <div class="ft-body">
+        <div class="ft-screenshot">
+          <div style="width:48px;height:32px;background:#1c1c1c;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#333;flex-shrink:0;">📸</div>
+          <div>
+            <div style="font-size:11px;font-weight:700;margin-bottom:2px;">Contact Page · Annotation #1</div>
+            <div class="ft-coord">x: 67.4% / y: 82.1% · Desktop viewport</div>
+          </div>
+        </div>
+        <div class="ft-comment-text">
+          The submit button is showing blue (#3b82f6) but it should be our brand orange (#f97316). This was correct before the last update. Please fix before client sign-off.
+        </div>
+        <div class="thread">
+          <div class="thread-msg">
+            <div class="tm-avatar tma-client">SC</div>
+            <div class="tm-bubble">
+              <div class="tm-name">Sarah Chen <span>4 days ago</span></div>
+              <div class="tm-text">The submit button is showing blue but it should be brand orange (#f97316). This was correct in the last version.</div>
+            </div>
+          </div>
+          <div class="thread-msg" style="flex-direction:row-reverse;">
+            <div class="tm-avatar tma-agency">EC</div>
+            <div class="tm-bubble agency" style="border-radius:10px 0 10px 10px;">
+              <div class="tm-name" style="color:#22c55e;">Eric · Boom Media <span>3 days ago</span></div>
+              <div class="tm-text">Thanks for flagging Sarah! We've tracked down the issue — a recent Tailwind purge removed the class. Will have this fixed in today's push.</div>
+            </div>
+          </div>
+        </div>
+        <div class="reply-box">
+          <textarea class="reply-input" placeholder="Reply to this thread…" rows="1"></textarea>
+          <button class="reply-send">Send ↑</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ITEM 2 — High, Open -->
+    <div class="ft-item" style="margin-bottom:8px;">
+      <div class="ft-header">
+        <div class="ft-pin pin-open">2</div>
+        <div class="ft-main">
+          <div class="ft-title">Hero CTA button is clipped on mobile (iPhone 14)</div>
+          <div class="ft-meta"><span>You · 30 min ago</span><span>·</span><span>📱 390×844</span><span>·</span><span>Homepage</span></div>
+        </div>
+        <div><span class="st-pill stp-open">⚠ Open</span></div>
+        <div><span class="pr-pill pr-hi">high</span></div>
+        <div class="ft-chevron">⌄</div>
+      </div>
+    </div>
+
+    <!-- ITEM 3 — In Progress -->
+    <div class="ft-item" style="margin-bottom:8px;">
+      <div class="ft-header">
+        <div class="ft-pin pin-prog">3</div>
+        <div class="ft-main">
+          <div class="ft-title">Footer links font size is too small across all pages</div>
+          <div class="ft-meta"><span>Dev team · 2 hrs ago</span><span>·</span><span>🖥 1440×900</span><span>·</span><span>All pages</span></div>
+        </div>
+        <div><span class="st-pill stp-prog">🕐 In Progress</span></div>
+        <div><span class="pr-pill pr-no">normal</span></div>
+        <div class="ft-chevron">⌄</div>
+      </div>
+    </div>
+
+    <!-- ITEM 4 — In Progress, expanded showing resolved reply -->
+    <div class="ft-item" style="margin-bottom:8px;">
+      <div class="ft-header">
+        <div class="ft-pin pin-prog">4</div>
+        <div class="ft-main">
+          <div class="ft-title">Navigation doesn't highlight the active page link</div>
+          <div class="ft-meta"><span>You · 1 day ago</span><span>·</span><span>🖥 1280×720</span><span>·</span><span>About page</span></div>
+        </div>
+        <div><span class="st-pill stp-prog">🕐 In Progress</span></div>
+        <div><span class="pr-pill pr-no">normal</span></div>
+        <div class="ft-chevron">⌄</div>
+      </div>
+    </div>
+
+    <!-- ITEM 5 — Resolved -->
+    <div class="ft-item" style="opacity:0.65;margin-bottom:8px;">
+      <div class="ft-header">
+        <div class="ft-pin pin-done">5</div>
+        <div class="ft-main">
+          <div class="ft-title">Logo is misaligned by ~4px in the header</div>
+          <div class="ft-meta"><span>You · 3 days ago</span><span>·</span><span>🖥 1440×900</span><span>·</span><span>All pages</span></div>
+        </div>
+        <div><span class="st-pill stp-done">✓ Resolved</span></div>
+        <div><span class="pr-pill pr-lo">low</span></div>
+        <div class="ft-chevron">⌄</div>
+      </div>
+    </div>
+
+    <!-- ITEM 6 — Open -->
+    <div class="ft-item" style="margin-bottom:8px;">
+      <div class="ft-header">
+        <div class="ft-pin pin-open">6</div>
+        <div class="ft-main">
+          <div class="ft-title">Services section — copy needs final client approval</div>
+          <div class="ft-meta"><span>You · 2 days ago</span><span>·</span><span>🖥 1920×1080</span><span>·</span><span>Services page</span></div>
+        </div>
+        <div><span class="st-pill stp-open">⚠ Open</span></div>
+        <div><span class="pr-pill pr-hi">high</span></div>
+        <div class="ft-chevron">⌄</div>
+      </div>
+    </div>
+
+    <!-- ITEM 7 — Open -->
+    <div class="ft-item">
+      <div class="ft-header">
+        <div class="ft-pin pin-open">7</div>
+        <div class="ft-main">
+          <div class="ft-title">Team photos need to be replaced with final headshots</div>
+          <div class="ft-meta"><span>You · 5 days ago</span><span>·</span><span>🖥 1440×900</span><span>·</span><span>About page</span></div>
+        </div>
+        <div><span class="st-pill stp-open">⚠ Open</span></div>
+        <div><span class="pr-pill pr-no">normal</span></div>
+        <div class="ft-chevron">⌄</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- APPROVAL CTA -->
+  <div class="approval-card">
+    <div class="ac-icon">🎉</div>
+    <div class="ac-title">Happy with everything? Give your approval.</div>
+    <div class="ac-sub">Once you approve, your agency will be notified and your project will be marked as complete. You can still leave feedback after approval if needed.</div>
+    <div class="ac-actions">
+      <div class="ac-approve">✓ Approve This Version</div>
+      <div class="ac-request">✎ Request More Changes</div>
+    </div>
+    <div class="ac-note">
+      <span>🔒</span>
+      <span>Your approval is logged with a timestamp and your name. You'll receive an email confirmation.</span>
+    </div>
+  </div>
+
+  <!-- ACTIVITY HISTORY -->
+  <div class="sec-hd" style="margin-bottom:16px;">
+    <div>
+      <div class="sec-title">Project Timeline</div>
+      <div class="sec-sub">History of changes and updates on this project</div>
+    </div>
+  </div>
+
+  <div style="background:#111;border:1px solid #1a1a1a;border-radius:14px;padding:4px 20px;">
+    <div class="history-list">
+      <div class="hist-item">
+        <div class="hist-dot-wrap">
+          <div class="hist-dot hd-orange"></div>
+          <div class="hist-line"></div>
+        </div>
+        <div class="hist-content">
+          <div class="hist-title">You left a new comment — "Hero button clipped on mobile"</div>
+          <div class="hist-sub">30 minutes ago · Homepage · 📱 390px</div>
+          <div class="hist-badge hb-open">Open</div>
+        </div>
+      </div>
+      <div class="hist-item">
+        <div class="hist-dot-wrap">
+          <div class="hist-dot hd-blue"></div>
+          <div class="hist-line"></div>
+        </div>
+        <div class="hist-content">
+          <div class="hist-title">Eric (Boom Media) moved "Footer font size" to In Progress</div>
+          <div class="hist-sub">2 hours ago</div>
+          <div class="hist-badge hb-prog">In Progress</div>
+        </div>
+      </div>
+      <div class="hist-item">
+        <div class="hist-dot-wrap">
+          <div class="hist-dot hd-green"></div>
+          <div class="hist-line"></div>
+        </div>
+        <div class="hist-content">
+          <div class="hist-title">Eric (Boom Media) resolved — "Logo misalignment in header"</div>
+          <div class="hist-sub">Yesterday at 3:44pm</div>
+          <div class="hist-badge hb-res">Resolved ✓</div>
+        </div>
+      </div>
+      <div class="hist-item">
+        <div class="hist-dot-wrap">
+          <div class="hist-dot hd-orange"></div>
+          <div class="hist-line"></div>
+        </div>
+        <div class="hist-content">
+          <div class="hist-title">You left 3 new comments on the homepage and about page</div>
+          <div class="hist-sub">2 days ago · 3 items added</div>
+        </div>
+      </div>
+      <div class="hist-item">
+        <div class="hist-dot-wrap">
+          <div class="hist-dot hd-green"></div>
+        </div>
+        <div class="hist-content">
+          <div class="hist-title">Review link opened — Eric invited you to review this project</div>
+          <div class="hist-sub">5 days ago</div>
+          <div class="hist-badge" style="background:rgba(34,197,94,0.08);color:#22c55e;">Project started</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="height:48px;"></div>
+</div>
+
+</body>
+</html>

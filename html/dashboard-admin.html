@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Approvee — Admin Dashboard</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; min-height: 100vh; }
+
+    /* PREVIEW NAV */
+    .topnav { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 10px 20px; display: flex; gap: 16px; align-items: center; font-size: 12px; flex-wrap: wrap; }
+    .topnav a { color: #888; text-decoration: none; padding: 4px 8px; border-radius: 5px; }
+    .topnav a:hover { color: #fff; background: #1a1a1a; }
+    .topnav a.current { color: #22c55e; background: rgba(34,197,94,0.1); }
+    .logo-icon { width: 26px; height: 26px; background: #22c55e; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 900; color: #000; }
+    .badge-label { background: rgba(34,197,94,0.15); color: #22c55e; font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 99px; letter-spacing: 0.5px; }
+
+    /* APP SHELL */
+    .app { display: flex; height: calc(100vh - 41px); overflow: hidden; }
+
+    /* SIDEBAR */
+    .sidebar { width: 228px; background: #0d0d0d; border-right: 1px solid #1a1a1a; display: flex; flex-direction: column; flex-shrink: 0; }
+    .sb-header { padding: 18px 16px 14px; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; gap: 9px; }
+    .sb-logo { width: 32px; height: 32px; background: #22c55e; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; font-weight: 900; color: #000; flex-shrink: 0; }
+    .sb-brand { font-weight: 900; font-size: 16px; letter-spacing: -0.3px; }
+    .sb-plan { font-size: 10px; color: #888; margin-top: 1px; }
+
+    .sb-new { margin: 12px; background: #22c55e; color: #000; font-weight: 800; font-size: 12px; padding: 10px 14px; border-radius: 9px; display: flex; align-items: center; gap: 7px; cursor: pointer; }
+    .sb-new:hover { background: #16a34a; }
+
+    .sb-section { font-size: 10px; font-weight: 800; color: #444; letter-spacing: 0.8px; text-transform: uppercase; padding: 14px 16px 6px; }
+    .nav-item { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 8px; font-size: 13px; color: #666; cursor: pointer; margin: 1px 8px; }
+    .nav-item:hover { background: #161616; color: #bbb; }
+    .nav-item.active { background: #1c1c1c; color: #fff; font-weight: 600; }
+    .nav-item.active .ni-icon { color: #22c55e; }
+    .ni-left { display: flex; align-items: center; gap: 9px; }
+    .ni-icon { font-size: 14px; width: 16px; text-align: center; }
+    .ni-badge { background: #22c55e; color: #000; font-size: 10px; font-weight: 900; padding: 1px 6px; border-radius: 99px; }
+    .ni-count { font-size: 11px; color: #444; }
+
+    .sb-foot { margin-top: auto; border-top: 1px solid #1a1a1a; padding: 12px; }
+    .sb-user { display: flex; align-items: center; gap: 9px; padding: 8px; border-radius: 9px; cursor: pointer; }
+    .sb-user:hover { background: #161616; }
+    .sb-avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(34,197,94,0.12); color: #22c55e; font-size: 12px; font-weight: 900; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .sb-uname { font-size: 12px; font-weight: 700; }
+    .sb-uemail { font-size: 10px; color: #555; }
+    .sb-chevron { color: #444; font-size: 11px; margin-left: auto; }
+
+    /* MAIN */
+    .main { flex: 1; overflow-y: auto; background: #0a0a0a; }
+
+    /* TOP BAR */
+    .topbar { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; }
+    .topbar-left h1 { font-size: 18px; font-weight: 800; }
+    .topbar-left p { font-size: 12px; color: #555; margin-top: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .search-box { background: #161616; border: 1px solid #1a1a1a; border-radius: 8px; padding: 7px 12px; font-size: 12px; color: #fff; display: flex; align-items: center; gap: 7px; width: 200px; cursor: text; }
+    .search-box span { color: #444; }
+    .search-box .ph { color: #444; font-size: 12px; }
+    .icon-btn { width: 34px; height: 34px; background: #161616; border: 1px solid #1a1a1a; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; }
+    .icon-btn:hover { background: #1c1c1c; border-color: #2a2a2a; }
+    .notif-dot { position: relative; }
+    .notif-dot::after { content: ''; position: absolute; top: 6px; right: 7px; width: 7px; height: 7px; background: #22c55e; border-radius: 50%; border: 2px solid #0d0d0d; }
+    .add-btn { background: #22c55e; color: #000; font-weight: 800; font-size: 12px; padding: 8px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+    /* CONTENT PADDING */
+    .content { padding: 24px 28px; }
+
+    /* STATS ROW */
+    .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat { background: #111; border: 1px solid #1a1a1a; border-radius: 12px; padding: 16px 18px; }
+    .stat-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 12px; }
+    .stat-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .si-green { background: rgba(34,197,94,0.1); }
+    .si-blue { background: rgba(59,130,246,0.1); }
+    .si-orange { background: rgba(249,115,22,0.1); }
+    .si-purple { background: rgba(168,85,247,0.1); }
+    .stat-trend { font-size: 11px; font-weight: 700; padding: 2px 7px; border-radius: 99px; }
+    .trend-up { background: rgba(34,197,94,0.1); color: #22c55e; }
+    .trend-down { background: rgba(239,68,68,0.1); color: #ef4444; }
+    .stat-num { font-size: 26px; font-weight: 900; letter-spacing: -1px; }
+    .stat-lbl { font-size: 12px; color: #555; margin-top: 2px; }
+    .stat-sub { font-size: 11px; color: #444; margin-top: 6px; }
+
+    /* TWO-COL LAYOUT */
+    .two-col { display: grid; grid-template-columns: 1fr 340px; gap: 16px; margin-bottom: 24px; }
+
+    /* PROJECT TABLE */
+    .card { background: #111; border: 1px solid #1a1a1a; border-radius: 14px; overflow: hidden; }
+    .card-header { padding: 16px 18px; border-bottom: 1px solid #1a1a1a; display: flex; align-items: center; justify-content: space-between; }
+    .card-title { font-size: 14px; font-weight: 800; }
+    .card-sub { font-size: 11px; color: #555; margin-top: 2px; }
+    .card-link { font-size: 12px; color: #22c55e; text-decoration: none; cursor: pointer; }
+
+    .proj-table { width: 100%; }
+    .pt-row { display: grid; grid-template-columns: 1fr 90px 80px 80px 40px; align-items: center; padding: 12px 18px; border-bottom: 1px solid #141414; gap: 8px; }
+    .pt-row:last-child { border-bottom: none; }
+    .pt-row:hover { background: #161616; }
+    .pt-head { font-size: 10px; font-weight: 800; color: #444; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 18px; border-bottom: 1px solid #1a1a1a; display: grid; grid-template-columns: 1fr 90px 80px 80px 40px; gap: 8px; }
+
+    .proj-name-cell { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .proj-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .dot-green { background: #22c55e; }
+    .dot-gray { background: #444; }
+    .dot-orange { background: #f97316; }
+    .proj-cell-name { font-size: 13px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .proj-cell-url { font-size: 11px; color: #444; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .st-badge { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 99px; display: inline-flex; align-items: center; gap: 4px; }
+    .stb-active { background: rgba(34,197,94,0.1); color: #22c55e; }
+    .stb-review { background: rgba(249,115,22,0.1); color: #f97316; }
+    .stb-paused { background: rgba(107,114,128,0.1); color: #6b7280; }
+    .stb-done { background: rgba(59,130,246,0.1); color: #3b82f6; }
+
+    .fb-count { font-size: 12px; font-weight: 700; }
+    .fb-open { color: #f97316; }
+    .fb-zero { color: #333; }
+
+    .mini-bar { height: 4px; background: #1a1a1a; border-radius: 2px; overflow: hidden; }
+    .mini-bar-fill { height: 100%; background: #22c55e; border-radius: 2px; }
+
+    .row-action { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; color: #444; }
+    .row-action:hover { background: #1a1a1a; color: #fff; }
+
+    /* ACTIVITY FEED */
+    .activity-list { }
+    .act-item { padding: 13px 18px; border-bottom: 1px solid #141414; display: flex; gap: 11px; align-items: flex-start; }
+    .act-item:last-child { border-bottom: none; }
+    .act-avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+    .av-green { background: rgba(34,197,94,0.12); color: #22c55e; }
+    .av-blue { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .av-orange { background: rgba(249,115,22,0.12); color: #f97316; }
+    .av-purple { background: rgba(168,85,247,0.12); color: #a855f7; }
+    .act-text { font-size: 12px; color: #bbb; line-height: 1.5; }
+    .act-text strong { color: #fff; font-weight: 700; }
+    .act-text .proj { color: #22c55e; }
+    .act-time { font-size: 10px; color: #444; margin-top: 3px; }
+    .act-pill { display: inline-flex; align-items: center; gap: 3px; background: #1a1a1a; border-radius: 5px; padding: 1px 6px; font-size: 10px; color: #666; margin-top: 4px; }
+
+    /* BOTTOM ROW */
+    .bottom-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+    /* FEEDBACK LIST */
+    .fb-list-item { padding: 12px 18px; border-bottom: 1px solid #141414; display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+    .fb-list-item:last-child { border-bottom: none; }
+    .fb-list-item:hover { background: #161616; }
+    .fb-pin { width: 22px; height: 22px; border-radius: 50% 50% 50% 0; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 900; color: #000; flex-shrink: 0; margin-top: 2px; }
+    .pin-open { background: #f97316; }
+    .pin-prog { background: #3b82f6; }
+    .pin-done { background: #22c55e; }
+    .fb-li-content { flex: 1; min-width: 0; }
+    .fb-li-title { font-size: 12px; font-weight: 600; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .fb-li-meta { font-size: 10px; color: #444; display: flex; gap: 8px; }
+    .fb-li-proj { font-size: 10px; color: #22c55e; margin-left: auto; flex-shrink: 0; }
+    .fb-li-priority { font-size: 9px; font-weight: 800; padding: 2px 6px; border-radius: 99px; flex-shrink: 0; }
+    .pr-crit { background: rgba(239,68,68,0.12); color: #ef4444; }
+    .pr-hi { background: rgba(249,115,22,0.12); color: #f97316; }
+    .pr-norm { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .pr-lo { background: rgba(107,114,128,0.12); color: #6b7280; }
+
+    /* QUICK STATS */
+    .rev-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 16px 18px; }
+    .rev-stat { background: #161616; border-radius: 10px; padding: 14px; }
+    .rs-num { font-size: 20px; font-weight: 900; }
+    .rs-lbl { font-size: 11px; color: #555; margin-top: 2px; }
+    .rs-bar { height: 3px; background: #1a1a1a; border-radius: 2px; margin-top: 10px; overflow: hidden; }
+    .rs-fill { height: 100%; border-radius: 2px; }
+
+    /* USAGE CARD */
+    .usage-row { padding: 12px 18px; border-bottom: 1px solid #141414; display: flex; align-items: center; gap: 12px; }
+    .usage-row:last-child { border-bottom: none; }
+    .usage-label { font-size: 12px; flex: 1; }
+    .usage-val { font-size: 12px; font-weight: 700; }
+    .usage-max { font-size: 11px; color: #444; }
+    .usage-bar { width: 80px; height: 5px; background: #1a1a1a; border-radius: 3px; overflow: hidden; }
+    .usage-fill { height: 100%; border-radius: 3px; }
+
+    /* UPGRADE BANNER */
+    .upgrade-banner { margin: 16px 18px; background: linear-gradient(135deg, rgba(34,197,94,0.08), rgba(34,197,94,0.03)); border: 1px solid rgba(34,197,94,0.15); border-radius: 12px; padding: 16px; }
+    .ub-tag { font-size: 10px; font-weight: 800; color: #22c55e; letter-spacing: 0.5px; margin-bottom: 6px; }
+    .ub-title { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+    .ub-sub { font-size: 11px; color: #666; margin-bottom: 12px; line-height: 1.4; }
+    .ub-btn { background: #22c55e; color: #000; font-size: 12px; font-weight: 800; padding: 8px 14px; border-radius: 8px; display: inline-block; cursor: pointer; }
+
+    /* EMPTY STATE */
+    .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px; color: #444; text-align: center; }
+    .empty-icon { font-size: 32px; margin-bottom: 10px; }
+    .empty-text { font-size: 13px; }
+  </style>
+</head>
+<body>
+
+<!-- Preview Nav -->
+<div class="topnav">
+  <div style="display:flex;align-items:center;gap:6px;font-weight:800;">
+    <div class="logo-icon">✓</div>
+    <span>Approvee</span>
+  </div>
+  <span class="badge-label">ADMIN VIEW</span>
+  <a href="index.html">← Home</a>
+  <a href="dashboard.html">Dashboard v1</a>
+  <a href="dashboard-client.html">Client Dashboard</a>
+  <a href="review.html">Review Canvas</a>
+  <a href="components.html">Components</a>
+  <a href="landing.html">Landing</a>
+  <a href="roi.html">ROI</a>
+</div>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo">✓</div>
+      <div>
+        <div class="sb-brand">Approvee</div>
+        <div class="sb-plan">Pro Plan · 6 of 25 projects</div>
+      </div>
+    </div>
+
+    <div class="sb-new">
+      <span style="font-size:16px;line-height:1;">+</span> New Project
+    </div>
+
+    <div class="sb-section">Workspace</div>
+    <div class="nav-item active">
+      <div class="ni-left"><span class="ni-icon">◻</span> All Projects</div>
+      <span class="ni-count">6</span>
+    </div>
+    <div class="nav-item">
+      <div class="ni-left"><span class="ni-icon">💬</span> All Feedback</div>
+      <span class="ni-badge">7</span>
+    </div>
+    <div class="nav-item">
+      <div class="ni-left"><span class="ni-icon">✓</span> Approvals</div>
+      <span class="ni-count">2</span>
+    </div>
+    <div class="nav-item">
+      <div class="ni-left"><span class="ni-icon">👥</span> Clients</div>
+      <span class="ni-count">4</span>
+    </div>
+
+    <div class="sb-section">Manage</div>
+    <div class="nav-item">
+      <div class="ni-left"><span class="ni-icon">📊</span> Analytics</div>
+    </div>
+    <div class="nav-item">
+      <div class="ni-left"><span class="ni-icon">⚙</span> Settings</div>
+    </div>
+    <div class="nav-item">
+      <div class="ni-left"><span class="ni-icon">💳</span> Billing</div>
+    </div>
+    <div class="nav-item">
+      <div class="ni-left"><span class="ni-icon">❓</span> Help</div>
+    </div>
+
+    <div class="sb-foot">
+      <div class="sb-user">
+        <div class="sb-avatar">EC</div>
+        <div>
+          <div class="sb-uname">Eric C.</div>
+          <div class="sb-uemail">eric@boommedia.us</div>
+        </div>
+        <div class="sb-chevron">⌄</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>All Projects</h1>
+        <p>Manage client feedback across all active workspaces</p>
+      </div>
+      <div class="topbar-right">
+        <div class="search-box">
+          <span>🔍</span>
+          <span class="ph">Search projects…</span>
+        </div>
+        <div class="icon-btn notif-dot">🔔</div>
+        <div class="icon-btn">⚙</div>
+        <div class="add-btn">+ New Project</div>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- STATS -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-top">
+            <div class="stat-icon si-green">◻</div>
+            <span class="stat-trend trend-up">+2 ↑</span>
+          </div>
+          <div class="stat-num">6</div>
+          <div class="stat-lbl">Active Projects</div>
+          <div class="stat-sub">25 project limit on Pro</div>
+        </div>
+        <div class="stat">
+          <div class="stat-top">
+            <div class="stat-icon si-orange">💬</div>
+            <span class="stat-trend trend-up">+7 ↑</span>
+          </div>
+          <div class="stat-num">31</div>
+          <div class="stat-lbl">Total Feedback</div>
+          <div class="stat-sub">7 open this week</div>
+        </div>
+        <div class="stat">
+          <div class="stat-top">
+            <div class="stat-icon si-green">✓</div>
+            <span class="stat-trend trend-up">83% ↑</span>
+          </div>
+          <div class="stat-num">24</div>
+          <div class="stat-lbl">Resolved Items</div>
+          <div class="stat-sub">77% resolution rate</div>
+        </div>
+        <div class="stat">
+          <div class="stat-top">
+            <div class="stat-icon si-purple">👥</div>
+            <span class="stat-trend trend-up">+1 ↑</span>
+          </div>
+          <div class="stat-num">4</div>
+          <div class="stat-lbl">Active Clients</div>
+          <div class="stat-sub">2 pending first review</div>
+        </div>
+      </div>
+
+      <!-- PROJECTS + ACTIVITY -->
+      <div class="two-col">
+
+        <!-- PROJECT TABLE -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Projects</div>
+              <div class="card-sub">Your active client websites</div>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <div style="display:flex;gap:4px;">
+                <div style="padding:5px 10px;border-radius:7px;background:rgba(34,197,94,0.1);color:#22c55e;font-size:11px;font-weight:700;cursor:pointer;">Active (4)</div>
+                <div style="padding:5px 10px;border-radius:7px;background:#161616;color:#555;font-size:11px;font-weight:600;cursor:pointer;">All (6)</div>
+              </div>
+              <a class="card-link">+ Add</a>
+            </div>
+          </div>
+
+          <div class="pt-head">
+            <div>PROJECT</div>
+            <div>STATUS</div>
+            <div>OPEN ITEMS</div>
+            <div>PROGRESS</div>
+            <div></div>
+          </div>
+
+          <!-- Row 1 -->
+          <div class="proj-table">
+            <div class="pt-row">
+              <div class="proj-name-cell">
+                <div class="proj-dot dot-orange"></div>
+                <div>
+                  <div class="proj-cell-name">Acme Corp Redesign</div>
+                  <div class="proj-cell-url">acmecorp.com</div>
+                </div>
+              </div>
+              <div><span class="st-badge stb-review">⚠ Needs Review</span></div>
+              <div class="fb-count fb-open">7 open</div>
+              <div>
+                <div style="font-size:10px;color:#555;margin-bottom:4px;">1/7 resolved</div>
+                <div class="mini-bar"><div class="mini-bar-fill" style="width:14%;"></div></div>
+              </div>
+              <div class="row-action">…</div>
+            </div>
+            <div class="pt-row">
+              <div class="proj-name-cell">
+                <div class="proj-dot dot-green"></div>
+                <div>
+                  <div class="proj-cell-name">Bay Dental Website</div>
+                  <div class="proj-cell-url">baydental.com</div>
+                </div>
+              </div>
+              <div><span class="st-badge stb-active">● Active</span></div>
+              <div class="fb-count fb-open">3 open</div>
+              <div>
+                <div style="font-size:10px;color:#555;margin-bottom:4px;">5/8 resolved</div>
+                <div class="mini-bar"><div class="mini-bar-fill" style="width:62%;"></div></div>
+              </div>
+              <div class="row-action">…</div>
+            </div>
+            <div class="pt-row">
+              <div class="proj-name-cell">
+                <div class="proj-dot dot-orange"></div>
+                <div>
+                  <div class="proj-cell-name">FitLife Landing Page</div>
+                  <div class="proj-cell-url">fitlife.io/landing</div>
+                </div>
+              </div>
+              <div><span class="st-badge stb-review">⚠ Needs Review</span></div>
+              <div class="fb-count fb-open">12 open</div>
+              <div>
+                <div style="font-size:10px;color:#555;margin-bottom:4px;">3/15 resolved</div>
+                <div class="mini-bar"><div class="mini-bar-fill" style="width:20%;background:#f97316;"></div></div>
+              </div>
+              <div class="row-action">…</div>
+            </div>
+            <div class="pt-row">
+              <div class="proj-name-cell">
+                <div class="proj-dot dot-green"></div>
+                <div>
+                  <div class="proj-cell-name">Spark Agency Homepage</div>
+                  <div class="proj-cell-url">sparkagency.co</div>
+                </div>
+              </div>
+              <div><span class="st-badge stb-active">● Active</span></div>
+              <div class="fb-count fb-zero">0 open</div>
+              <div>
+                <div style="font-size:10px;color:#555;margin-bottom:4px;">6/6 resolved</div>
+                <div class="mini-bar"><div class="mini-bar-fill" style="width:100%;"></div></div>
+              </div>
+              <div class="row-action">…</div>
+            </div>
+            <div class="pt-row">
+              <div class="proj-name-cell">
+                <div class="proj-dot dot-gray"></div>
+                <div>
+                  <div class="proj-cell-name">Sunrise Bakery</div>
+                  <div class="proj-cell-url">sunrisebakery.com</div>
+                </div>
+              </div>
+              <div><span class="st-badge stb-done">✓ Approved</span></div>
+              <div class="fb-count fb-zero">0 open</div>
+              <div>
+                <div style="font-size:10px;color:#555;margin-bottom:4px;">9/9 resolved</div>
+                <div class="mini-bar"><div class="mini-bar-fill" style="width:100%;background:#3b82f6;"></div></div>
+              </div>
+              <div class="row-action">…</div>
+            </div>
+            <div class="pt-row">
+              <div class="proj-name-cell">
+                <div class="proj-dot dot-gray"></div>
+                <div>
+                  <div class="proj-cell-name">Northside Realty</div>
+                  <div class="proj-cell-url">northsiderealty.com</div>
+                </div>
+              </div>
+              <div><span class="st-badge stb-paused">⏸ Paused</span></div>
+              <div class="fb-count fb-zero">2 open</div>
+              <div>
+                <div style="font-size:10px;color:#555;margin-bottom:4px;">4/6 resolved</div>
+                <div class="mini-bar"><div class="mini-bar-fill" style="width:66%;background:#6b7280;"></div></div>
+              </div>
+              <div class="row-action">…</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ACTIVITY FEED -->
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Recent Activity</div>
+              <div class="card-sub">Live updates across all projects</div>
+            </div>
+            <a class="card-link">View all →</a>
+          </div>
+          <div class="activity-list" style="flex:1;overflow-y:auto;">
+            <div class="act-item">
+              <div class="act-avatar av-orange">SC</div>
+              <div>
+                <div class="act-text"><strong>Sarah Chen</strong> left a new comment on <span class="proj">Acme Corp</span></div>
+                <div class="act-pill">💬 "Hero button clipped on mobile"</div>
+                <div class="act-time">2 minutes ago</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-avatar av-green">EC</div>
+              <div>
+                <div class="act-text">You marked <strong>Logo alignment</strong> as <span style="color:#22c55e">resolved</span> on <span class="proj">Acme Corp</span></div>
+                <div class="act-time">34 minutes ago</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-avatar av-blue">MR</div>
+              <div>
+                <div class="act-text"><strong>Mike R.</strong> opened the review link for <span class="proj">Bay Dental</span></div>
+                <div class="act-pill">👁 3 pages viewed</div>
+                <div class="act-time">1 hour ago</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-avatar av-purple">AL</div>
+              <div>
+                <div class="act-text"><strong>Amanda L.</strong> approved <span class="proj">Spark Agency</span> homepage</div>
+                <div class="act-pill" style="color:#22c55e;">✓ Approved</div>
+                <div class="act-time">3 hours ago</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-avatar av-orange">JT</div>
+              <div>
+                <div class="act-text"><strong>James T.</strong> left 5 new items on <span class="proj">FitLife</span></div>
+                <div class="act-pill" style="color:#ef4444;">⚠ 2 critical</div>
+                <div class="act-time">Yesterday at 4:12pm</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-avatar av-green">EC</div>
+              <div>
+                <div class="act-text">You created project <span class="proj">Northside Realty</span> and sent review link</div>
+                <div class="act-time">2 days ago</div>
+              </div>
+            </div>
+            <div class="act-item">
+              <div class="act-avatar av-blue">MR</div>
+              <div>
+                <div class="act-text"><strong>Mike R.</strong> replied to your comment on <span class="proj">Bay Dental</span></div>
+                <div class="act-pill">💬 "Looks good now!"</div>
+                <div class="act-time">2 days ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div class="bottom-row">
+
+        <!-- OPEN FEEDBACK -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <div class="card-title">Open Feedback</div>
+              <div class="card-sub">Unresolved items across all projects</div>
+            </div>
+            <div style="display:flex;gap:4px;">
+              <span style="padding:4px 9px;background:rgba(249,115,22,0.1);color:#f97316;border-radius:7px;font-size:11px;font-weight:700;">7 open</span>
+              <a class="card-link" style="padding:4px 9px;">View all →</a>
+            </div>
+          </div>
+          <div>
+            <div class="fb-list-item">
+              <div class="fb-pin pin-open">1</div>
+              <div class="fb-li-content">
+                <div class="fb-li-title">Contact form button has wrong brand color</div>
+                <div class="fb-li-meta">
+                  <span>Sarah C.</span><span>·</span><span>Acme Corp</span><span>·</span><span>4d ago</span>
+                </div>
+              </div>
+              <div class="fb-li-priority pr-crit">critical</div>
+            </div>
+            <div class="fb-list-item">
+              <div class="fb-pin pin-open">2</div>
+              <div class="fb-li-content">
+                <div class="fb-li-title">Hero button is cut off on mobile (390px)</div>
+                <div class="fb-li-meta">
+                  <span>Sarah C.</span><span>·</span><span>Acme Corp</span><span>·</span><span>30m ago</span>
+                </div>
+              </div>
+              <div class="fb-li-priority pr-hi">high</div>
+            </div>
+            <div class="fb-list-item">
+              <div class="fb-pin pin-prog">3</div>
+              <div class="fb-li-content">
+                <div class="fb-li-title">Services section copy needs updating</div>
+                <div class="fb-li-meta">
+                  <span>Mike R.</span><span>·</span><span>Bay Dental</span><span>·</span><span>1d ago</span>
+                </div>
+              </div>
+              <div class="fb-li-priority pr-norm">normal</div>
+            </div>
+            <div class="fb-list-item">
+              <div class="fb-pin pin-open">4</div>
+              <div class="fb-li-content">
+                <div class="fb-li-title">Pricing table looks broken on tablet</div>
+                <div class="fb-li-meta">
+                  <span>James T.</span><span>·</span><span>FitLife</span><span>·</span><span>Yesterday</span>
+                </div>
+              </div>
+              <div class="fb-li-priority pr-hi">high</div>
+            </div>
+            <div class="fb-list-item">
+              <div class="fb-pin pin-open">5</div>
+              <div class="fb-li-content">
+                <div class="fb-li-title">CTA button animation stutters on scroll</div>
+                <div class="fb-li-meta">
+                  <span>James T.</span><span>·</span><span>FitLife</span><span>·</span><span>Yesterday</span>
+                </div>
+              </div>
+              <div class="fb-li-priority pr-norm">normal</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PLAN USAGE + UPGRADE -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <div class="card">
+            <div class="card-header">
+              <div>
+                <div class="card-title">Plan Usage</div>
+                <div class="card-sub">Approvee Pro · Renews Jun 1</div>
+              </div>
+              <span style="font-size:11px;color:#22c55e;font-weight:700;cursor:pointer;">Manage →</span>
+            </div>
+            <div>
+              <div class="usage-row">
+                <span class="usage-label">◻ Projects</span>
+                <span class="usage-val">6</span>
+                <span class="usage-max">/ 25</span>
+                <div class="usage-bar"><div class="usage-fill" style="width:24%;background:#22c55e;"></div></div>
+              </div>
+              <div class="usage-row">
+                <span class="usage-label">💬 Feedback items</span>
+                <span class="usage-val">31</span>
+                <span class="usage-max">/ ∞</span>
+                <div class="usage-bar"><div class="usage-fill" style="width:100%;background:#22c55e;"></div></div>
+              </div>
+              <div class="usage-row">
+                <span class="usage-label">👥 Team members</span>
+                <span class="usage-val">1</span>
+                <span class="usage-max">/ 3</span>
+                <div class="usage-bar"><div class="usage-fill" style="width:33%;background:#3b82f6;"></div></div>
+              </div>
+              <div class="usage-row">
+                <span class="usage-label">🔗 Review links sent</span>
+                <span class="usage-val">18</span>
+                <span class="usage-max">/ ∞</span>
+                <div class="usage-bar"><div class="usage-fill" style="width:100%;background:#22c55e;"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="upgrade-banner">
+              <div class="ub-tag">⚡ UPGRADE TO AGENCY</div>
+              <div class="ub-title">Unlimited projects + team</div>
+              <div class="ub-sub">White-label reviews, custom domain, priority support, and up to 10 team members.</div>
+              <div class="ub-btn">Upgrade to Agency →</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </main>
+</div>
+
+</body>
+</html>

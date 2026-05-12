@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Approvee — Color Palette</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .nav { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 14px 32px; display: flex; gap: 24px; align-items: center; }
+    .nav-logo { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 17px; }
+    .logo-icon { width: 30px; height: 30px; background: #22c55e; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .nav a { font-size: 13px; color: #888; text-decoration: none; }
+    .nav a:hover { color: #fff; }
+    .page { max-width: 1000px; margin: 0 auto; padding: 60px 32px; }
+    .label { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #22c55e; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 32px; font-weight: 900; margin-bottom: 6px; }
+    .sub { font-size: 14px; color: #888; margin-bottom: 48px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 16px; margin-bottom: 48px; }
+    .swatch { border-radius: 14px; overflow: hidden; border: 1px solid #1a1a1a; }
+    .swatch-color { height: 100px; }
+    .swatch-info { padding: 14px; background: #111; }
+    .swatch-name { font-size: 13px; font-weight: 700; margin-bottom: 4px; }
+    .swatch-hex { font-size: 11px; color: #888; font-family: monospace; margin-bottom: 4px; }
+    .swatch-use { font-size: 11px; color: #666; }
+    h2 { font-size: 20px; font-weight: 800; margin-bottom: 20px; margin-top: 48px; }
+
+    /* Combinations */
+    .combo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 48px; }
+    .combo { border-radius: 14px; padding: 24px; border: 1px solid #1a1a1a; }
+    .combo-title { font-size: 12px; color: #888; margin-bottom: 12px; }
+    .combo-btn { display: inline-block; padding: 10px 20px; border-radius: 8px; font-size: 13px; font-weight: 800; margin-bottom: 10px; }
+    .combo-text { font-size: 13px; line-height: 1.6; color: #888; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo"><div class="logo-icon">✓</div> Approvee</div>
+  <a href="index.html">← Back</a>
+  <a href="landing.html">Landing</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="review.html">Review</a>
+  <a href="components.html">Components</a>
+</nav>
+
+<div class="page">
+  <div class="label">Brand System</div>
+  <h1>Color Palette</h1>
+  <p class="sub">Every color used in the Approvee design system with usage context.</p>
+
+  <h2>Core Colors</h2>
+  <div class="grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#22c55e;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Accent Green</div>
+        <div class="swatch-hex">#22c55e</div>
+        <div class="swatch-use">CTAs, pins, highlights, active states</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#16a34a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Accent Dark</div>
+        <div class="swatch-hex">#16a34a</div>
+        <div class="swatch-use">Hover states for accent elements</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#000000; border-bottom: 1px solid #1a1a1a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Accent Text</div>
+        <div class="swatch-hex">#000000</div>
+        <div class="swatch-use">Text on green buttons</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#0a0a0a; border-bottom: 1px solid #1a1a1a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Background</div>
+        <div class="swatch-hex">#0a0a0a</div>
+        <div class="swatch-use">Main page background</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#0d0d0d; border-bottom: 1px solid #1a1a1a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Nav / Sidebar</div>
+        <div class="swatch-hex">#0d0d0d</div>
+        <div class="swatch-use">Navigation bars, sidebars</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#111111; border-bottom: 1px solid #1a1a1a;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Muted / Card</div>
+        <div class="swatch-hex">#111111</div>
+        <div class="swatch-use">Cards, panels, input backgrounds</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#1a1a1a; border-bottom: 1px solid #333;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Border</div>
+        <div class="swatch-hex">#1a1a1a</div>
+        <div class="swatch-use">Card borders, dividers, separators</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#888888;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Body Text</div>
+        <div class="swatch-hex">#888888</div>
+        <div class="swatch-use">Secondary text, descriptions</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#ffffff;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">White</div>
+        <div class="swatch-hex">#ffffff</div>
+        <div class="swatch-use">Primary headings, active labels</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Status Colors</h2>
+  <div class="grid">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#f97316;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Open</div>
+        <div class="swatch-hex">#f97316</div>
+        <div class="swatch-use">Open feedback items, alerts</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#3b82f6;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">In Progress</div>
+        <div class="swatch-hex">#3b82f6</div>
+        <div class="swatch-use">Active / in-progress states</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#22c55e;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Resolved</div>
+        <div class="swatch-hex">#22c55e</div>
+        <div class="swatch-use">Resolved / approved / success</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#6b7280;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Won't Fix</div>
+        <div class="swatch-hex">#6b7280</div>
+        <div class="swatch-use">Dismissed / won't fix items</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#ef4444;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Critical</div>
+        <div class="swatch-hex">#ef4444</div>
+        <div class="swatch-use">Critical priority, errors</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#febc2e;"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">High Priority</div>
+        <div class="swatch-hex">#febc2e</div>
+        <div class="swatch-use">High priority warnings</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Color Combinations</h2>
+  <div class="combo-grid">
+    <div class="combo" style="background:#111;">
+      <div class="combo-title">Primary CTA</div>
+      <div class="combo-btn" style="background:#22c55e;color:#000;">Add Feedback</div>
+      <br>
+      <div class="combo-text">Green button on dark card — maximum contrast, clear action.</div>
+    </div>
+    <div class="combo" style="background:#111;">
+      <div class="combo-title">Ghost Button</div>
+      <div class="combo-btn" style="background:transparent;color:#ccc;border:1px solid #1a1a1a;">See How It Works</div>
+      <br>
+      <div class="combo-text">Transparent with light border — secondary action.</div>
+    </div>
+    <div class="combo" style="background:#111;">
+      <div class="combo-title">Accent Outline</div>
+      <div class="combo-btn" style="background:#22c55e15;color:#22c55e;border:1px solid #22c55e40;">Annotate Mode</div>
+      <br>
+      <div class="combo-text">Green tint + green border — toggled/active state.</div>
+    </div>
+    <div class="combo" style="background:#0a0a0a;">
+      <div class="combo-title">Open Status Badge</div>
+      <div class="combo-btn" style="background:#f9731615;color:#f97316;padding:4px 10px;font-size:11px;border-radius:99px;">Open</div>
+      <br><br>
+      <div class="combo-text">Orange tint badge — draws attention to open items.</div>
+    </div>
+    <div class="combo" style="background:#0a0a0a;">
+      <div class="combo-title">Resolved Status Badge</div>
+      <div class="combo-btn" style="background:#22c55e15;color:#22c55e;padding:4px 10px;font-size:11px;border-radius:99px;">Resolved ✓</div>
+      <br><br>
+      <div class="combo-text">Green tint badge — approval, done state.</div>
+    </div>
+    <div class="combo" style="background:#0a0a0a;">
+      <div class="combo-title">Review Link Box</div>
+      <div style="background:#22c55e0a;border:1px solid #22c55e25;border-radius:10px;padding:12px;">
+        <div style="font-size:10px;color:#22c55e;font-weight:800;margin-bottom:4px;">CLIENT REVIEW LINK</div>
+        <div style="font-size:11px;color:#ccc;font-family:monospace;">approvee.online/review/abc123</div>
+      </div>
+    </div>
+  </div>
+
+  <h2>Typography Scale</h2>
+  <div style="background:#111;border:1px solid #1a1a1a;border-radius:14px;padding:32px;display:flex;flex-direction:column;gap:20px;">
+    <div><span style="font-size:11px;color:#888;display:block;margin-bottom:4px;">Label / Tag — 11px 800 uppercase #22c55e</span><span style="font-size:11px;font-weight:800;color:#22c55e;letter-spacing:2px;text-transform:uppercase;">EARLY ACCESS OPEN</span></div>
+    <div><span style="font-size:11px;color:#888;display:block;margin-bottom:4px;">Hero H1 — 64px 900</span><span style="font-size:64px;font-weight:900;line-height:1.1;color:#fff;">Clients click.</span></div>
+    <div><span style="font-size:11px;color:#888;display:block;margin-bottom:4px;">Hero Accent — 64px 900 #22c55e</span><span style="font-size:64px;font-weight:900;line-height:1.1;color:#22c55e;">You fix.</span></div>
+    <div><span style="font-size:11px;color:#888;display:block;margin-bottom:4px;">Section H2 — 32px 900</span><span style="font-size:32px;font-weight:900;color:#fff;">Built for agencies</span></div>
+    <div><span style="font-size:11px;color:#888;display:block;margin-bottom:4px;">Card Title — 15px 700</span><span style="font-size:15px;font-weight:700;color:#fff;">Click-to-Comment</span></div>
+    <div><span style="font-size:11px;color:#888;display:block;margin-bottom:4px;">Body — 14px 400 #888</span><span style="font-size:14px;color:#888;line-height:1.7;">Clients click anywhere on your live or staging site to drop a comment. No guessing, no back-and-forth.</span></div>
+    <div><span style="font-size:11px;color:#888;display:block;margin-bottom:4px;">Small / Meta — 11px #444</span><span style="font-size:11px;color:#444;">Created 2h ago · Chrome · Desktop · 1440×900</span></div>
+  </div>
+</div>
+
+</body>
+</html>

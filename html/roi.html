@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Approvee — ROI & Resale Analysis</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .topnav { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 12px 24px; display: flex; gap: 20px; align-items: center; font-size: 13px; }
+    .topnav a { color: #888; text-decoration: none; } .topnav a:hover { color: #fff; }
+    .logo-icon { width: 28px; height: 28px; background: #22c55e; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .page { max-width: 900px; margin: 0 auto; padding: 60px 32px 100px; }
+    .label { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #22c55e; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 36px; font-weight: 900; margin-bottom: 6px; }
+    .sub { font-size: 14px; color: #888; margin-bottom: 48px; line-height: 1.7; }
+    h2 { font-size: 20px; font-weight: 800; margin: 48px 0 20px; color: #fff; }
+    h3 { font-size: 15px; font-weight: 700; margin-bottom: 10px; color: #fff; }
+    .card { background: #111; border: 1px solid #1a1a1a; border-radius: 14px; padding: 24px; margin-bottom: 16px; }
+    .card.green { background: rgba(34,197,94,0.05); border-color: rgba(34,197,94,0.2); }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+    .big-num { font-size: 36px; font-weight: 900; color: #22c55e; margin-bottom: 4px; }
+    .big-lbl { font-size: 12px; color: #888; }
+    p { color: #888; font-size: 14px; line-height: 1.7; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; border-bottom: 1px solid #1a1a1a; }
+    td { padding: 12px 14px; font-size: 13px; border-bottom: 1px solid #0f0f0f; }
+    tr:last-child td { border-bottom: none; }
+    .num { font-weight: 900; color: #fff; }
+    .green-text { color: #22c55e; font-weight: 700; }
+    .muted { color: #888; }
+    .timeline-row { display: flex; gap: 0; margin-bottom: 0; }
+    .tl-step { flex: 1; position: relative; padding: 20px 16px; border: 1px solid #1a1a1a; border-right: none; background: #111; }
+    .tl-step:last-child { border-right: 1px solid #1a1a1a; border-radius: 0 12px 12px 0; }
+    .tl-step:first-child { border-radius: 12px 0 0 12px; }
+    .tl-week { font-size: 10px; font-weight: 800; color: #22c55e; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+    .tl-title { font-size: 13px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .tl-items { font-size: 11px; color: #888; line-height: 1.8; }
+    .pill { display: inline-block; padding: 3px 10px; border-radius: 99px; font-size: 11px; font-weight: 700; }
+    .pill-green { background: rgba(34,197,94,0.1); color: #22c55e; }
+    .pill-orange { background: rgba(249,115,22,0.1); color: #f97316; }
+    .pill-blue { background: rgba(59,130,246,0.1); color: #3b82f6; }
+    ul { padding-left: 0; list-style: none; }
+    ul li { padding: 5px 0; font-size: 14px; color: #888; display: flex; gap: 10px; }
+    ul li::before { content: '→'; color: #22c55e; font-weight: 700; flex-shrink: 0; }
+    .competitor-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 0; }
+    .comp-cell { padding: 12px 16px; border-bottom: 1px solid #111; font-size: 13px; }
+    .comp-header { font-size: 11px; font-weight: 800; color: #888; text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 1px solid #1a1a1a; }
+  </style>
+</head>
+<body>
+
+<div class="topnav">
+  <div style="display:flex;align-items:center;gap:6px;font-weight:700;"><div class="logo-icon">✓</div> Approvee</div>
+  <a href="index.html">← Back to Previews</a>
+</div>
+
+<div class="page">
+  <div class="label">Business Analysis</div>
+  <h1>ROI & Resale Analysis</h1>
+  <p class="sub">Timeline, cost breakdown, revenue projections, and resale strategy for Approvee as a Boom Media SaaS product targeting solopreneurs, freelancers, and agencies.</p>
+
+  <!-- KEY NUMBERS -->
+  <div class="grid3">
+    <div class="card green" style="text-align:center;">
+      <div class="big-num">~$50</div>
+      <div class="big-lbl">Monthly infra cost at launch</div>
+    </div>
+    <div class="card green" style="text-align:center;">
+      <div class="big-num">$19–39</div>
+      <div class="big-lbl">Per workspace / month</div>
+    </div>
+    <div class="card green" style="text-align:center;">
+      <div class="big-num">3</div>
+      <div class="big-lbl">Paid customers to break even</div>
+    </div>
+  </div>
+
+  <!-- LAUNCH TIMELINE -->
+  <h2>Launch Timeline</h2>
+  <p>From first commit to first paying customer. Based on the fully built codebase already in place.</p>
+
+  <div class="timeline-row" style="margin-bottom:24px;">
+    <div class="tl-step">
+      <div class="tl-week">Week 1</div>
+      <div class="tl-title">Infrastructure Setup</div>
+      <div class="tl-items">
+        ✓ Supabase configured<br>
+        ✓ GitHub pushed<br>
+        → Vercel deploy<br>
+        → Add domain<br>
+        → Run DB schema<br>
+        → Test signup flow
+      </div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-week">Week 2</div>
+      <div class="tl-title">Payments Live</div>
+      <div class="tl-items">
+        → Stripe account setup<br>
+        → Create price IDs<br>
+        → Add env vars to Vercel<br>
+        → Test checkout flow<br>
+        → Test webhook<br>
+        → Resend email setup
+      </div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-week">Week 3</div>
+      <div class="tl-title">Beta Launch</div>
+      <div class="tl-items">
+        → Invite 5–10 beta users<br>
+        → Collect real feedback<br>
+        → Fix critical bugs<br>
+        → Add to BOOM B.A.R<br>
+        → Update approvee.online
+      </div>
+    </div>
+    <div class="tl-step">
+      <div class="tl-week">Week 4+</div>
+      <div class="tl-title">Public Launch</div>
+      <div class="tl-items">
+        → Early access promo<br>
+        → APPROVE50 code<br>
+        → ProductHunt post<br>
+        → Social media push<br>
+        → Referral program
+      </div>
+    </div>
+  </div>
+
+  <!-- COST BREAKDOWN -->
+  <h2>Monthly Operating Costs</h2>
+  <div class="card">
+    <table>
+      <tr>
+        <th>Service</th>
+        <th>Purpose</th>
+        <th>Plan</th>
+        <th>Cost/mo</th>
+      </tr>
+      <tr>
+        <td class="num">Supabase</td>
+        <td class="muted">Database + Auth + Storage</td>
+        <td><span class="pill pill-green">Free tier → Pro</span></td>
+        <td class="num">$0 → $25</td>
+      </tr>
+      <tr>
+        <td class="num">Vercel</td>
+        <td class="muted">Hosting + CDN + Serverless</td>
+        <td><span class="pill pill-green">Hobby (free) → Pro</span></td>
+        <td class="num">$0 → $20</td>
+      </tr>
+      <tr>
+        <td class="num">Stripe</td>
+        <td class="muted">Payment processing</td>
+        <td><span class="pill pill-orange">2.9% + 30¢ per txn</span></td>
+        <td class="num">~$0.85/sub</td>
+      </tr>
+      <tr>
+        <td class="num">Resend</td>
+        <td class="muted">Transactional email</td>
+        <td><span class="pill pill-green">Free (3,000/mo)</span></td>
+        <td class="num">$0</td>
+      </tr>
+      <tr>
+        <td class="num">Domain</td>
+        <td class="muted">approvee.online</td>
+        <td><span class="pill pill-blue">Annual</span></td>
+        <td class="num">~$1/mo</td>
+      </tr>
+      <tr style="background:rgba(34,197,94,0.04);">
+        <td class="num green-text">Total (launch)</td>
+        <td class="muted">Free tiers only</td>
+        <td></td>
+        <td class="num green-text">~$1/mo</td>
+      </tr>
+      <tr style="background:rgba(34,197,94,0.04);">
+        <td class="num green-text">Total (scaled)</td>
+        <td class="muted">After free tier limits</td>
+        <td></td>
+        <td class="num green-text">~$47–50/mo</td>
+      </tr>
+    </table>
+  </div>
+  <p style="font-size:12px;color:#555;margin-top:8px;">* Supabase free tier: 500MB DB, 1GB storage, 50k monthly active users. Upgrade when you hit limits.</p>
+
+  <!-- REVENUE PROJECTIONS -->
+  <h2>Revenue Projections</h2>
+  <div class="card">
+    <table>
+      <tr>
+        <th>Customers</th>
+        <th>Plan Mix</th>
+        <th>Gross Revenue</th>
+        <th>After Stripe (2.9%)</th>
+        <th>After Infra ($50)</th>
+        <th>Margin</th>
+      </tr>
+      <tr>
+        <td class="num">3</td>
+        <td class="muted">All Pro ($19)</td>
+        <td>$57/mo</td>
+        <td>$55</td>
+        <td class="green-text">$5</td>
+        <td class="muted">9%</td>
+      </tr>
+      <tr>
+        <td class="num">10</td>
+        <td class="muted">7 Pro + 3 Agency</td>
+        <td>$250/mo</td>
+        <td>$243</td>
+        <td class="green-text">$193</td>
+        <td class="green-text">77%</td>
+      </tr>
+      <tr>
+        <td class="num">25</td>
+        <td class="muted">18 Pro + 7 Agency</td>
+        <td>$615/mo</td>
+        <td>$597</td>
+        <td class="green-text">$547</td>
+        <td class="green-text">89%</td>
+      </tr>
+      <tr>
+        <td class="num">50</td>
+        <td class="muted">35 Pro + 15 Agency</td>
+        <td>$1,250/mo</td>
+        <td>$1,214</td>
+        <td class="green-text">$1,164</td>
+        <td class="green-text">93%</td>
+      </tr>
+      <tr style="background:rgba(34,197,94,0.05);">
+        <td class="num green-text">100</td>
+        <td class="muted">70 Pro + 30 Agency</td>
+        <td class="green-text">$2,500/mo</td>
+        <td class="green-text">$2,428</td>
+        <td class="green-text">$2,378/mo</td>
+        <td class="green-text">95%</td>
+      </tr>
+    </table>
+  </div>
+  <p style="margin-top:4px;">At 100 customers: <strong style="color:#fff;">$28,500/year</strong> in recurring revenue at ~95% gross margin. Infrastructure costs barely move.</p>
+
+  <!-- COMPETITOR COMPARISON -->
+  <h2>Competitor Pricing Comparison</h2>
+  <div class="card">
+    <div class="competitor-row" style="margin-bottom:0;">
+      <div class="comp-cell comp-header">Tool</div>
+      <div class="comp-cell comp-header">Starter</div>
+      <div class="comp-cell comp-header">Pro</div>
+      <div class="comp-cell comp-header">Pricing Model</div>
+    </div>
+    <div class="competitor-row" style="background:rgba(34,197,94,0.05);">
+      <td class="comp-cell" style="font-weight:800;color:#22c55e;">Approvee ✓</td>
+      <td class="comp-cell green-text">Free</td>
+      <td class="comp-cell green-text">$19/mo</td>
+      <td class="comp-cell green-text">Per workspace</td>
+    </div>
+    <div class="competitor-row">
+      <td class="comp-cell muted">HuddleKit</td>
+      <td class="comp-cell">Free</td>
+      <td class="comp-cell">$16/mo</td>
+      <td class="comp-cell muted">Per workspace</td>
+    </div>
+    <div class="competitor-row">
+      <td class="comp-cell muted">BugHerd</td>
+      <td class="comp-cell">$41/mo</td>
+      <td class="comp-cell">$83/mo</td>
+      <td class="comp-cell muted">Per seat</td>
+    </div>
+    <div class="competitor-row">
+      <td class="comp-cell muted">Marker.io</td>
+      <td class="comp-cell">$39/mo</td>
+      <td class="comp-cell">$79/mo</td>
+      <td class="comp-cell muted">Per seat</td>
+    </div>
+    <div class="competitor-row">
+      <td class="comp-cell muted">Pastel</td>
+      <td class="comp-cell">$24/mo</td>
+      <td class="comp-cell">$49/mo</td>
+      <td class="comp-cell muted">Per seat</td>
+    </div>
+    <div class="competitor-row">
+      <td class="comp-cell muted">Usersnap</td>
+      <td class="comp-cell">$69/mo</td>
+      <td class="comp-cell">$129/mo</td>
+      <td class="comp-cell muted">Per seat</td>
+    </div>
+  </div>
+  <p style="margin-top:8px;">Approvee's flat per-workspace pricing is a <strong style="color:#fff;">major competitive advantage</strong> — agencies pay the same whether they have 2 or 20 client reviewers. Competitors charge per seat and become expensive fast.</p>
+
+  <!-- RESALE STRATEGY -->
+  <h2>Resale Strategy</h2>
+  <div class="grid2">
+    <div class="card">
+      <h3>Target Buyer Personas</h3>
+      <ul style="margin-top:10px;">
+        <li>Webflow / web developers managing 3+ client sites</li>
+        <li>Design agencies doing website redesigns</li>
+        <li>Freelancers who send .loom videos for feedback now</li>
+        <li>Marketing agencies managing landing page campaigns</li>
+        <li>SaaS founders getting QA feedback on staging</li>
+        <li>No-code builders delivering Webflow/Framer projects</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Sales Channels</h3>
+      <ul style="margin-top:10px;">
+        <li>BOOM B.A.R dashboard (cross-sell to existing users)</li>
+        <li>ProductHunt launch (free exposure, early adopters)</li>
+        <li>Webflow community forums + Facebook groups</li>
+        <li>Agency Slack communities (e.g. Agency Hive)</li>
+        <li>YouTube / TikTok demo video ("how I get client feedback")</li>
+        <li>Appsumo lifetime deal (rapid user acquisition)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Early Access Hook</h3>
+      <ul style="margin-top:10px;">
+        <li>Code APPROVE50 = 50% off for 12 months</li>
+        <li>First 50 spots only — creates urgency</li>
+        <li>Lock in early pricing forever</li>
+        <li>Beta users = product feedback + testimonials</li>
+        <li>Turn beta users into affiliates (20% recurring)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Expansion Revenue</h3>
+      <ul style="margin-top:10px;">
+        <li>Free → Pro conversion when 1-project limit hit</li>
+        <li>Pro → Agency when team grows past 3 members</li>
+        <li>Yearly billing upsell (2 months free)</li>
+        <li>White-label add-on for agency resellers</li>
+        <li>Future: AI-powered feedback summary ($5 add-on)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- BOOM BAR FIT -->
+  <h2>Fit Within BOOM B.A.R</h2>
+  <div class="card green">
+    <p style="color:#ccc;margin-bottom:16px;">Approvee fills the <strong style="color:#fff;">client approval workflow</strong> gap in the Boom Media suite. Every agency using Bloggy, Addee, or Rankee also delivers websites — and every website delivery needs client approval.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;text-align:center;">
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">B</div>
+        <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:4px;">Bloggy</div>
+        <div style="font-size:11px;color:#888;">AI blog writing</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#22c55e;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">A ← NEW</div>
+        <div style="font-size:14px;font-weight:900;color:#22c55e;margin-bottom:4px;">Approvee</div>
+        <div style="font-size:11px;color:#888;">Client approvals</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">R</div>
+        <div style="font-size:14px;font-weight:900;color:#fff;margin-bottom:4px;">Rankee</div>
+        <div style="font-size:11px;color:#888;">SEO & rankings</div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:800;color:#888;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">?</div>
+        <div style="font-size:14px;font-weight:900;color:#444;margin-bottom:4px;">TBD</div>
+        <div style="font-size:11px;color:#555;">Next tool</div>
+      </div>
+    </div>
+    <div style="margin-top:16px;font-size:13px;color:#888;">Cross-sell opportunity: any user on Rankee can be upsold Approvee for their client delivery workflow. Single dashboard at project-t4qis.vercel.app shows all 4 tools.</div>
+  </div>
+
+  <!-- BREAK-EVEN SUMMARY -->
+  <h2>Break-Even Summary</h2>
+  <div class="card" style="border-color:#22c55e30;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px;text-align:center;">
+      <div>
+        <div style="font-size:36px;font-weight:900;color:#22c55e;">3</div>
+        <div style="font-size:13px;color:#888;margin-top:4px;">Pro customers to cover infra</div>
+      </div>
+      <div>
+        <div style="font-size:36px;font-weight:900;color:#22c55e;">$0</div>
+        <div style="font-size:13px;color:#888;margin-top:4px;">Dev cost (already built)</div>
+      </div>
+      <div>
+        <div style="font-size:36px;font-weight:900;color:#22c55e;">Day 1</div>
+        <div style="font-size:13px;color:#888;margin-top:4px;">Ready to take payments after Vercel deploy</div>
+      </div>
+    </div>
+    <div style="margin-top:24px;padding-top:20px;border-top:1px solid #1a1a1a;font-size:14px;color:#888;line-height:1.8;">
+      The product is fully built. Infrastructure is either free or nearly free until you scale. The only investment needed to launch is your time to set up Stripe, verify the deploy, and do an initial marketing push. <strong style="color:#fff;">You can go from zero to revenue within 1–2 weeks.</strong>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

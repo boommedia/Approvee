@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Approvee — UI Components</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+    .topnav { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 12px 24px; display: flex; gap: 20px; align-items: center; font-size: 13px; }
+    .topnav a { color: #888; text-decoration: none; } .topnav a:hover { color: #fff; }
+    .logo-icon { width: 28px; height: 28px; background: #22c55e; border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .page { max-width: 1000px; margin: 0 auto; padding: 60px 32px; }
+    .label { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #22c55e; text-transform: uppercase; margin-bottom: 8px; }
+    h1 { font-size: 32px; font-weight: 900; margin-bottom: 6px; }
+    .sub { font-size: 14px; color: #888; margin-bottom: 48px; }
+    h2 { font-size: 18px; font-weight: 800; margin: 48px 0 20px; padding-bottom: 10px; border-bottom: 1px solid #1a1a1a; }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 28px; }
+    .col { display: flex; flex-direction: column; gap: 12px; }
+    .card { background: #111; border: 1px solid #1a1a1a; border-radius: 14px; padding: 24px; }
+    small { font-size: 11px; color: #888; display: block; margin-top: 6px; }
+  </style>
+</head>
+<body>
+
+<div class="topnav">
+  <div style="display:flex;align-items:center;gap:6px;font-weight:700;"><div class="logo-icon">✓</div> Preview</div>
+  <a href="index.html">← Home</a>
+  <a href="colors.html">Colors</a>
+  <a href="landing.html">Landing</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="review.html">Review Canvas</a>
+</div>
+
+<div class="page">
+  <div class="label">Design System</div>
+  <h1>UI Components</h1>
+  <p class="sub">Every reusable component in the Approvee design system.</p>
+
+  <!-- BUTTONS -->
+  <h2>Buttons</h2>
+  <div class="row">
+    <div>
+      <button style="background:#22c55e;color:#000;font-weight:800;font-size:14px;padding:12px 24px;border-radius:10px;border:none;cursor:pointer;">Add Feedback</button>
+      <small>Primary — #22c55e bg, #000 text</small>
+    </div>
+    <div>
+      <button style="background:transparent;color:#ccc;font-weight:600;font-size:14px;padding:12px 24px;border-radius:10px;border:1px solid #1a1a1a;cursor:pointer;">Cancel</button>
+      <small>Ghost — transparent, #1a1a1a border</small>
+    </div>
+    <div>
+      <button style="background:rgba(34,197,94,0.1);color:#22c55e;font-weight:700;font-size:14px;padding:12px 24px;border-radius:10px;border:1px solid rgba(34,197,94,0.25);cursor:pointer;">✗ Cancel Mode</button>
+      <small>Accent outline — toggle active state</small>
+    </div>
+    <div>
+      <button style="background:#22c55e;color:#000;font-weight:800;font-size:13px;padding:9px 18px;border-radius:9px;border:none;cursor:pointer;">Small CTA</button>
+      <small>Small primary button</small>
+    </div>
+    <div>
+      <button style="background:transparent;color:#888;font-weight:600;font-size:13px;padding:9px 18px;border-radius:9px;border:1px solid #1a1a1a;cursor:pointer;display:flex;align-items:center;gap:6px;">📋 Copy Link</button>
+      <small>Icon + text button</small>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <h2>Status Badges</h2>
+  <div class="row">
+    <div>
+      <span style="background:rgba(249,115,22,0.1);color:#f97316;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;">⚠ open</span>
+      <small>Open — #f97316</small>
+    </div>
+    <div>
+      <span style="background:rgba(59,130,246,0.1);color:#3b82f6;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;">🕐 in progress</span>
+      <small>In Progress — #3b82f6</small>
+    </div>
+    <div>
+      <span style="background:rgba(34,197,94,0.1);color:#22c55e;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;">✓ resolved</span>
+      <small>Resolved — #22c55e</small>
+    </div>
+    <div>
+      <span style="background:rgba(107,114,128,0.1);color:#6b7280;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;">✗ won't fix</span>
+      <small>Won't Fix — #6b7280</small>
+    </div>
+  </div>
+  <div class="row">
+    <div>
+      <span style="background:rgba(107,114,128,0.1);color:#6b7280;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;">low</span>
+      <small>Low priority</small>
+    </div>
+    <div>
+      <span style="background:rgba(59,130,246,0.1);color:#3b82f6;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;">normal</span>
+      <small>Normal priority</small>
+    </div>
+    <div>
+      <span style="background:rgba(249,115,22,0.1);color:#f97316;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;">high</span>
+      <small>High priority</small>
+    </div>
+    <div>
+      <span style="background:rgba(239,68,68,0.1);color:#ef4444;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;">critical</span>
+      <small>Critical priority</small>
+    </div>
+    <div>
+      <span style="background:rgba(34,197,94,0.07);color:#22c55e;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;">Active</span>
+      <small>Project active</small>
+    </div>
+    <div>
+      <span style="background:rgba(107,114,128,0.1);color:#6b7280;font-size:11px;font-weight:800;padding:4px 10px;border-radius:99px;">Archived</span>
+      <small>Project archived</small>
+    </div>
+  </div>
+
+  <!-- INPUTS -->
+  <h2>Form Inputs</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;">
+    <div>
+      <label style="font-size:12px;color:#888;display:block;margin-bottom:6px;">Project Name</label>
+      <input value="Acme Corp Redesign" style="width:100%;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none;font-family:inherit;" />
+      <small>Default input state</small>
+    </div>
+    <div>
+      <label style="font-size:12px;color:#888;display:block;margin-bottom:6px;">Website URL</label>
+      <input value="https://acmecorp.com" style="width:100%;background:#0a0a0a;border:1px solid #22c55e40;border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none;font-family:inherit;" />
+      <small>Focused/active state — green border</small>
+    </div>
+    <div>
+      <label style="font-size:12px;color:#888;display:block;margin-bottom:6px;">Email (disabled)</label>
+      <input value="eric@boommedia.us" disabled style="width:100%;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none;opacity:0.4;font-family:inherit;" />
+      <small>Disabled state — 40% opacity</small>
+    </div>
+    <div>
+      <label style="font-size:12px;color:#888;display:block;margin-bottom:6px;">Description</label>
+      <textarea rows="3" style="width:100%;background:#0a0a0a;border:1px solid #1a1a1a;border-radius:10px;padding:12px 14px;color:#fff;font-size:14px;outline:none;resize:vertical;font-family:inherit;line-height:1.6;">Notes for your team...</textarea>
+      <small>Textarea — same style as input</small>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <h2>Cards</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <!-- Project card -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;">
+        <div style="width:40px;height:40px;border-radius:10px;background:rgba(34,197,94,0.1);display:flex;align-items:center;justify-content:center;font-size:20px;">✓</div>
+        <span style="font-size:10px;font-weight:800;color:#22c55e;background:rgba(34,197,94,0.1);padding:3px 8px;border-radius:99px;">Active</span>
+      </div>
+      <div style="font-size:14px;font-weight:700;margin-bottom:4px;">Acme Corp Redesign</div>
+      <div style="font-size:11px;color:#333;margin-bottom:14px;">acmecorp.com</div>
+      <div style="display:flex;justify-content:space-between;">
+        <span style="font-size:11px;color:#888;">💬 7 items</span>
+        <span style="font-size:11px;color:#333;">2h ago</span>
+      </div>
+      <small>Project card — hover shows green border</small>
+    </div>
+
+    <!-- Feedback item card -->
+    <div class="card" style="border-color:#22c55e30;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+        <span style="background:rgba(249,115,22,0.1);color:#f97316;font-size:11px;font-weight:700;padding:3px 8px;border-radius:99px;">⚠ open</span>
+        <span style="background:rgba(249,115,22,0.1);color:#f97316;font-size:10px;font-weight:700;padding:2px 6px;border-radius:99px;">high</span>
+      </div>
+      <div style="font-size:14px;font-weight:600;margin-bottom:6px;">Hero button cut off on mobile</div>
+      <div style="font-size:11px;color:#888;">Sarah K. · 30m ago · 📱 390×844</div>
+      <small>Expanded feedback item — green border indicates selection</small>
+    </div>
+
+    <!-- Stat card -->
+    <div class="card" style="display:flex;align-items:center;gap:14px;">
+      <span style="font-size:22px;">✓</span>
+      <div>
+        <div style="font-size:22px;font-weight:900;">6</div>
+        <div style="font-size:12px;color:#888;">Total Projects</div>
+      </div>
+      <small style="display:none;">Stat card</small>
+    </div>
+  </div>
+  <p style="font-size:11px;color:#888;margin-top:8px;">Stat cards, project cards, and feedback items all use the same base: #111 bg, #1a1a1a border, 12–14px border-radius</p>
+
+  <!-- ANNOTATION PINS -->
+  <h2>Annotation Pins</h2>
+  <div class="row" style="background:#111;border:1px solid #1a1a1a;border-radius:14px;padding:24px;position:relative;min-height:120px;">
+    <div style="position:relative;display:inline-block;">
+      <div style="width:28px;height:28px;border-radius:50% 50% 50% 0;background:#f97316;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);">1</div>
+      <small style="margin-top:8px;">Open pin — #f97316</small>
+    </div>
+    <div style="position:relative;display:inline-block;margin-left:20px;">
+      <div style="width:28px;height:28px;border-radius:50% 50% 50% 0;background:#22c55e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);">2</div>
+      <small style="margin-top:8px;">Resolved pin — #22c55e</small>
+    </div>
+    <div style="position:relative;display:inline-block;margin-left:20px;">
+      <div style="width:28px;height:28px;border-radius:50% 50% 50% 0;background:#f97316;border:2px solid #fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,0.4);">3</div>
+      <small style="margin-top:8px;">Selected pin — white border</small>
+    </div>
+    <div style="position:relative;display:inline-block;margin-left:40px;">
+      <div style="background:#161616;border:1px solid #1a1a1a;border-radius:10px;padding:14px;width:220px;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;"><span style="font-size:12px;font-weight:700;">Sarah K.</span><span style="font-size:12px;color:#888;">✕</span></div>
+        <p style="font-size:13px;color:#ddd;line-height:1.5;margin-bottom:8px;">Nav links don't show active page state.</p>
+        <div style="font-size:11px;color:#888;">2 hours ago</div>
+      </div>
+      <small>Pin tooltip popup</small>
+    </div>
+  </div>
+
+  <!-- REVIEW LINK BOX -->
+  <h2>Review Link Box</h2>
+  <div style="background:rgba(34,197,94,0.05);border:1px solid rgba(34,197,94,0.15);border-radius:12px;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;max-width:700px;flex-wrap:wrap;gap:12px;">
+    <div>
+      <div style="font-size:11px;font-weight:800;color:#22c55e;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px;">Client Review Link</div>
+      <div style="font-size:13px;color:#ccc;font-family:monospace;">approvee.online/review/a8f3c2d1e9b7</div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div style="background:#111;border:1px solid #1a1a1a;color:#fff;font-size:12px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;">↗ Open Review</div>
+      <div style="background:#22c55e;color:#000;font-size:12px;font-weight:700;padding:8px 14px;border-radius:8px;cursor:pointer;">📋 Copy Link</div>
+    </div>
+  </div>
+
+  <!-- PLAN CARDS MINI -->
+  <h2>Pricing Plan Cards</h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+    <div class="card">
+      <div style="font-size:13px;font-weight:600;color:#888;margin-bottom:4px;">Free</div>
+      <div style="font-size:36px;font-weight:900;margin-bottom:16px;">$0</div>
+      <button style="display:block;width:100%;padding:11px;background:transparent;border:1px solid #1a1a1a;border-radius:9px;color:#ccc;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">Start Free</button>
+    </div>
+    <div style="background:rgba(34,197,94,0.04);border:1px solid rgba(34,197,94,0.2);border-radius:14px;padding:24px;position:relative;">
+      <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:#22c55e;color:#000;font-size:9px;font-weight:900;padding:3px 12px;border-radius:99px;white-space:nowrap;">MOST POPULAR</div>
+      <div style="font-size:13px;font-weight:600;color:#888;margin-bottom:4px;">Pro</div>
+      <div style="font-size:36px;font-weight:900;margin-bottom:16px;">$19<span style="font-size:14px;color:#888;font-weight:400;">/mo</span></div>
+      <button style="display:block;width:100%;padding:11px;background:#22c55e;border:none;border-radius:9px;color:#000;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">Start Free Trial</button>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:600;color:#888;margin-bottom:4px;">Agency</div>
+      <div style="font-size:36px;font-weight:900;margin-bottom:16px;">$39<span style="font-size:14px;color:#888;font-weight:400;">/mo</span></div>
+      <button style="display:block;width:100%;padding:11px;background:transparent;border:1px solid #1a1a1a;border-radius:9px;color:#ccc;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;">Start Free Trial</button>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATIONS -->
+  <h2>Toast Notifications</h2>
+  <div class="col" style="max-width:360px;">
+    <div style="background:#1a1a1a;border:1px solid rgba(34,197,94,0.2);border-left:3px solid #22c55e;color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;">
+      ✓ Review link copied to clipboard
+    </div>
+    <div style="background:#1a1a1a;border:1px solid rgba(239,68,68,0.2);border-left:3px solid #ef4444;color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;">
+      ✗ Failed to submit feedback. Try again.
+    </div>
+    <div style="background:#1a1a1a;border:1px solid rgba(59,130,246,0.2);border-left:3px solid #3b82f6;color:#fff;padding:12px 18px;border-radius:10px;font-size:13px;font-weight:500;">
+      ℹ Status updated to In Progress
+    </div>
+  </div>
+  <p style="font-size:12px;color:#888;margin-top:12px;">Toasts appear bottom-right, slide in from right, auto-dismiss after 3.5s</p>
+
+</div>
+</body>
+</html>

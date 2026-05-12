@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Approvee — Landing Page Preview</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #0a0a0a; color: #fff; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; overflow-x: hidden; }
+    a { text-decoration: none; }
+
+    /* NAV */
+    .topnav { background: #0d0d0d; border-bottom: 1px solid #1a1a1a; padding: 14px 32px; display: flex; gap: 24px; align-items: center; }
+    .topnav .logo { display: flex; align-items: center; gap: 8px; font-weight: 900; font-size: 17px; }
+    .logo-icon { width: 30px; height: 30px; background: #22c55e; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .topnav a { font-size: 13px; color: #888; }
+    .topnav a:hover { color: #fff; }
+
+    /* SITE NAV */
+    .sitenav { position: sticky; top: 0; z-index: 50; background: rgba(10,10,10,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #1a1a1a; padding: 14px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .sitenav-logo { display: flex; align-items: center; gap: 8px; }
+    .sitenav-logo span { font-weight: 900; font-size: 18px; }
+    .sitenav-links { display: flex; gap: 28px; font-size: 13px; color: #888; }
+    .sitenav-links a { color: #888; }
+    .sitenav-links a.active { color: #22c55e; font-weight: 600; }
+    .sitenav-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-ghost { color: #888; font-size: 13px; }
+    .btn-primary { background: #22c55e; color: #000; font-weight: 800; font-size: 13px; padding: 9px 22px; border-radius: 10px; }
+    .btn-primary:hover { background: #16a34a; }
+
+    /* BANNER */
+    .banner { background: rgba(34,197,94,0.05); border-bottom: 1px solid rgba(34,197,94,0.13); padding: 10px 16px; text-align: center; font-size: 13px; }
+    .banner strong { color: #22c55e; }
+    .banner code { color: #fff; font-weight: 900; font-family: monospace; }
+    .banner .pill { background: #22c55e; color: #000; font-weight: 800; font-size: 11px; padding: 3px 12px; border-radius: 99px; margin-left: 10px; display: inline-flex; align-items: center; gap: 4px; }
+
+    /* HERO */
+    .hero { max-width: 1100px; margin: 0 auto; padding: 80px 24px 60px; text-align: center; position: relative; }
+    .glow { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; border-radius: 50%; background: #22c55e; opacity: 0.05; filter: blur(80px); pointer-events: none; }
+    .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.18); color: #22c55e; font-size: 11px; font-weight: 800; padding: 6px 16px; border-radius: 99px; margin-bottom: 28px; letter-spacing: 0.5px; }
+    .hero h1 { font-size: clamp(42px, 6vw, 70px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+    .hero h1 .line1 { color: #fff; display: block; }
+    .hero h1 .line2 { color: #22c55e; display: block; }
+    .hero h1 .line3 { color: #888; display: block; font-size: 0.65em; font-weight: 400; margin-top: 8px; }
+    .hero p { font-size: 18px; color: #888; max-width: 540px; margin: 0 auto 36px; line-height: 1.7; }
+    .hero p strong { color: #fff; }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 40px; }
+    .btn-hero { background: #22c55e; color: #000; font-weight: 800; font-size: 15px; padding: 14px 32px; border-radius: 12px; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-outline { border: 1px solid #1a1a1a; color: #888; font-size: 15px; font-weight: 600; padding: 14px 32px; border-radius: 12px; }
+    .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+    .chip { display: flex; align-items: center; gap: 6px; background: #111; border: 1px solid #1a1a1a; padding: 7px 14px; border-radius: 8px; font-size: 12px; }
+    .chip .dim { color: #444; }
+    .chip .val { color: #22c55e; font-weight: 700; }
+
+    /* STEPS */
+    .steps-section { max-width: 1100px; margin: 0 auto; padding: 20px 24px 80px; }
+    .section-label { font-size: 11px; font-weight: 800; letter-spacing: 2px; color: #22c55e; text-transform: uppercase; margin-bottom: 10px; text-align: center; }
+    .section-h2 { font-size: 36px; font-weight: 900; text-align: center; margin-bottom: 10px; }
+    .section-sub { color: #888; max-width: 480px; margin: 0 auto 40px; text-align: center; font-size: 14px; }
+    .steps-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+    .step-card { background: #111; border: 1px solid #1a1a1a; border-radius: 14px; padding: 28px; }
+    .step-num { font-size: 11px; font-weight: 900; color: #22c55e; letter-spacing: 2px; margin-bottom: 12px; }
+    .step-title { font-size: 18px; font-weight: 800; margin-bottom: 8px; }
+    .step-desc { font-size: 13px; color: #888; line-height: 1.6; }
+
+    /* MOCKUP */
+    .mockup { background: #0f0f0f; border: 1px solid #1a1a1a; border-radius: 18px; overflow: hidden; box-shadow: 0 0 60px rgba(34,197,94,0.05); }
+    .mockup-bar { background: #111; border-bottom: 1px solid #1a1a1a; padding: 10px 16px; display: flex; align-items: center; gap: 6px; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .mockup-url { margin-left: 12px; font-size: 11px; color: #333; font-family: monospace; }
+    .mockup-body { padding: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .mock-card { background: #111; border: 1px solid #1a1a1a; border-radius: 12px; padding: 18px; }
+    .mock-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 14px; }
+    .mock-icon { width: 36px; height: 36px; border-radius: 9px; background: rgba(34,197,94,0.1); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .mock-status { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 99px; }
+    .status-active { color: #22c55e; background: rgba(34,197,94,0.1); }
+    .status-approved { color: #22c55e; background: rgba(34,197,94,0.1); }
+    .status-needs { color: #ef4444; background: rgba(239,68,68,0.1); }
+    .mock-title { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .mock-url { font-size: 11px; color: #333; margin-bottom: 12px; }
+    .mock-meta { font-size: 11px; color: #888; }
+
+    /* FEATURES */
+    .features-section { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+    .feat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .feat-card { background: #111; border: 1px solid #1a1a1a; border-radius: 14px; padding: 22px; }
+    .feat-icon { font-size: 22px; margin-bottom: 14px; }
+    .feat-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .feat-desc { font-size: 13px; color: #888; line-height: 1.6; }
+
+    /* STATS */
+    .stats { border-top: 1px solid #1a1a1a; border-bottom: 1px solid #1a1a1a; background: #111; padding: 40px 24px; }
+    .stats-inner { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; text-align: center; }
+    .stat-num { font-size: 36px; font-weight: 900; color: #22c55e; }
+    .stat-label { font-size: 12px; color: #888; margin-top: 4px; }
+
+    /* PRICING */
+    .pricing-section { max-width: 1100px; margin: 0 auto; padding: 80px 24px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .plan-card { background: #111; border: 1px solid #1a1a1a; border-radius: 18px; padding: 28px; position: relative; }
+    .plan-card.popular { background: rgba(34,197,94,0.05); border-color: rgba(34,197,94,0.25); box-shadow: 0 0 40px rgba(34,197,94,0.08); }
+    .popular-badge { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #22c55e; color: #000; font-size: 10px; font-weight: 900; padding: 4px 16px; border-radius: 99px; white-space: nowrap; }
+    .plan-name { font-size: 13px; font-weight: 600; color: #888; margin-bottom: 4px; }
+    .plan-price { display: flex; align-items: flex-end; gap: 4px; margin-bottom: 4px; }
+    .plan-price-num { font-size: 40px; font-weight: 900; line-height: 1; }
+    .plan-price-per { color: #888; font-size: 13px; padding-bottom: 4px; }
+    .plan-orig { color: #333; text-decoration: line-through; font-size: 13px; padding-bottom: 4px; }
+    .plan-desc { font-size: 12px; color: #888; margin-bottom: 20px; }
+    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .plan-features li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #ccc; }
+    .check { color: #22c55e; font-weight: 900; }
+    .plan-btn { display: block; text-align: center; font-weight: 800; font-size: 13px; padding: 12px; border-radius: 10px; }
+    .plan-btn.solid { background: #22c55e; color: #000; }
+    .plan-btn.ghost { border: 1px solid #1a1a1a; color: #ccc; }
+
+    /* FOOTER */
+    footer { border-top: 1px solid #1a1a1a; padding: 32px 24px; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+    .footer-logo { display: flex; align-items: center; gap: 8px; }
+    .footer-links { display: flex; gap: 24px; font-size: 12px; color: #888; }
+    .footer-links a { color: #888; }
+    .footer-copy { font-size: 11px; color: #333; }
+  </style>
+</head>
+<body>
+
+<!-- Preview nav -->
+<div class="topnav">
+  <div class="logo"><div class="logo-icon">✓</div> Preview Nav</div>
+  <a href="index.html">← Back to Index</a>
+  <a href="colors.html">Colors</a>
+  <a href="dashboard.html">Dashboard</a>
+  <a href="review.html">Review Canvas</a>
+  <a href="components.html">Components</a>
+</div>
+
+<!-- BANNER -->
+<div class="banner">
+  <strong>Early Access Open</strong>
+  &mdash; 50% off for 1 year &middot; Code: <code>APPROVE50</code>
+  <a href="#" class="pill">Claim Spot &rarr;</a>
+</div>
+
+<!-- SITE NAV -->
+<nav class="sitenav">
+  <div class="sitenav-logo">
+    <div class="logo-icon" style="width:32px;height:32px;background:#22c55e;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;">✓</div>
+    <span>Approvee</span>
+    <span style="font-size:11px;color:#222;margin-left:4px;">by Boom Media</span>
+  </div>
+  <div class="sitenav-links">
+    <a href="#">Features</a>
+    <a href="#">How It Works</a>
+    <a href="#" class="active">Pricing</a>
+    <a href="#">FAQ</a>
+    <a href="#">Support</a>
+  </div>
+  <div class="sitenav-actions">
+    <a href="#" class="btn-ghost">Sign In</a>
+    <a href="#" class="btn-primary">Start Free</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="glow"></div>
+  <div style="position:relative;">
+    <div class="badge">⚡ 1,200+ AGENCIES & FREELANCERS USE APPROVEE</div>
+    <h1>
+      <span class="line1">Clients click.</span>
+      <span class="line2">You fix.</span>
+      <span class="line3">Visual feedback on any website.</span>
+    </h1>
+    <p>
+      Share a link. Clients point and click to leave comments directly on your live site.
+      Every comment becomes a task with a screenshot, browser info, and coordinates attached.
+      <strong>No extension. No client signup.</strong>
+    </p>
+    <div class="hero-btns">
+      <a href="#" class="btn-hero">Start Free — No Card Required &rarr;</a>
+      <a href="#" class="btn-outline">See how it works &rarr;</a>
+    </div>
+    <div class="chips">
+      <div class="chip"><span class="dim">Works with</span><span class="val">Any Website</span></div>
+      <div class="chip"><span class="dim">Captures</span><span class="val">Screenshots + Context</span></div>
+      <div class="chip"><span class="dim">No</span><span class="val">Browser Extension</span></div>
+      <div class="chip"><span class="dim">Pricing per</span><span class="val">Workspace</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="steps-section">
+  <div class="section-label">How It Works</div>
+  <div class="section-h2">Three steps. That's it.</div>
+  <p class="section-sub">No onboarding calls. No setup. Paste a URL, share the link, ship faster.</p>
+
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <div class="step-title">Paste your URL</div>
+      <p class="step-desc">Add your live site, staging URL, or Webflow preview link to a new Approvee project.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <div class="step-title">Share the link</div>
+      <p class="step-desc">Send your client a unique review link. They open it in any browser — no account needed.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <div class="step-title">Ship the fixes</div>
+      <p class="step-desc">Comments become tasks with screenshots. Resolve them in your Kanban board and mark approved.</p>
+    </div>
+  </div>
+
+  <!-- Dashboard mockup -->
+  <div class="mockup">
+    <div class="mockup-bar">
+      <span class="dot" style="background:#ff5f57;"></span>
+      <span class="dot" style="background:#febc2e;margin-left:4px;"></span>
+      <span class="dot" style="background:#22c55e;margin-left:4px;"></span>
+      <span class="mockup-url">approvee.online/dashboard</span>
+    </div>
+    <div class="mockup-body">
+      <div class="mock-card">
+        <div class="mock-card-header">
+          <div class="mock-icon">✓</div>
+          <span class="mock-status status-active">Active</span>
+        </div>
+        <div class="mock-title">Acme Corp Redesign</div>
+        <div class="mock-url">acmecorp.com</div>
+        <div class="mock-meta">7 feedback items</div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-card-header">
+          <div class="mock-icon">✓</div>
+          <span class="mock-status status-approved">Approved</span>
+        </div>
+        <div class="mock-title">Bay Dental Website</div>
+        <div class="mock-url">baydental.com</div>
+        <div class="mock-meta">3 feedback items</div>
+      </div>
+      <div class="mock-card">
+        <div class="mock-card-header">
+          <div class="mock-icon">✓</div>
+          <span class="mock-status status-needs">Needs Work</span>
+        </div>
+        <div class="mock-title">FitLife Landing Page</div>
+        <div class="mock-url">fitlife.io/landing</div>
+        <div class="mock-meta">12 feedback items</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-label">Everything You Need</div>
+  <div class="section-h2">Built for the way agencies actually work</div>
+  <p class="section-sub">Stop chasing clients on Slack for feedback. Approvee puts it all in one place.</p>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-icon">🖱️</div><div class="feat-title">Click-to-Comment</div><p class="feat-desc">Clients click anywhere on your live or staging site. Feedback lands exactly where it belongs.</p></div>
+    <div class="feat-card"><div class="feat-icon">⚡</div><div class="feat-title">Instant Tasks</div><p class="feat-desc">Every comment auto-creates a task with screenshot, browser info, and page URL. Zero manual work.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔍</div><div class="feat-title">Inspect Mode</div><p class="feat-desc">Hover to see spacing rulers, CSS values, and element dimensions before your client does.</p></div>
+    <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-title">Kanban Board</div><p class="feat-desc">Drag feedback cards across Open → In Progress → Resolved without another app.</p></div>
+    <div class="feat-card"><div class="feat-icon">🔗</div><div class="feat-title">No Signup Required</div><p class="feat-desc">Share a link. Clients open it and start commenting — no account, no extension, no friction.</p></div>
+    <div class="feat-card"><div class="feat-icon">📱</div><div class="feat-title">Multi-Breakpoint View</div><p class="feat-desc">Test desktop, tablet, and mobile side-by-side before you ship.</p></div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div><div class="stat-num">1,200+</div><div class="stat-label">Agencies Using Approvee</div></div>
+    <div><div class="stat-num">94%</div><div class="stat-label">Faster Client Approvals</div></div>
+    <div><div class="stat-num">0</div><div class="stat-label">Extensions Needed</div></div>
+    <div><div class="stat-num">4.9★</div><div class="stat-label">Average Rating</div></div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="section-label">Pricing</div>
+  <div class="section-h2">Per workspace. Not per seat.</div>
+  <p class="section-sub">Unlimited client reviewers on every plan. They're always free.</p>
+
+  <div class="pricing-grid">
+    <div class="plan-card">
+      <div class="plan-name">Free</div>
+      <div class="plan-price"><span class="plan-price-num">$0</span></div>
+      <div class="plan-desc">Try Approvee with your first client project.</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> 1 project</li>
+        <li><span class="check">✓</span> 3 team members</li>
+        <li><span class="check">✓</span> Unlimited guests</li>
+        <li><span class="check">✓</span> Unlimited comments</li>
+        <li><span class="check">✓</span> 100 MB storage</li>
+      </ul>
+      <a href="#" class="plan-btn ghost">Start Free</a>
+    </div>
+    <div class="plan-card popular">
+      <div class="popular-badge">MOST POPULAR</div>
+      <div class="plan-name">Pro</div>
+      <div class="plan-price">
+        <span class="plan-price-num">$19</span>
+        <span class="plan-price-per">/mo</span>
+        <span class="plan-orig">$38</span>
+      </div>
+      <div class="plan-desc">For freelancers running multiple client projects.</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Unlimited projects</li>
+        <li><span class="check">✓</span> 3 team members</li>
+        <li><span class="check">✓</span> Unlimited guests</li>
+        <li><span class="check">✓</span> Kanban board</li>
+        <li><span class="check">✓</span> Inspect mode</li>
+        <li><span class="check">✓</span> Private comments</li>
+        <li><span class="check">✓</span> File attachments</li>
+        <li><span class="check">✓</span> 5 GB storage</li>
+      </ul>
+      <a href="#" class="plan-btn solid">Start Free Trial</a>
+    </div>
+    <div class="plan-card">
+      <div class="plan-name">Agency</div>
+      <div class="plan-price">
+        <span class="plan-price-num">$39</span>
+        <span class="plan-price-per">/mo</span>
+        <span class="plan-orig">$78</span>
+      </div>
+      <div class="plan-desc">For agencies with growing teams and client rosters.</div>
+      <ul class="plan-features">
+        <li><span class="check">✓</span> Unlimited projects</li>
+        <li><span class="check">✓</span> 15 team members</li>
+        <li><span class="check">✓</span> Unlimited guests</li>
+        <li><span class="check">✓</span> Kanban + Inspect mode</li>
+        <li><span class="check">✓</span> Private comments</li>
+        <li><span class="check">✓</span> File attachments</li>
+        <li><span class="check">✓</span> White-label branding</li>
+        <li><span class="check">✓</span> 50 GB storage</li>
+      </ul>
+      <a href="#" class="plan-btn ghost">Start Free Trial</a>
+    </div>
+  </div>
+  <p style="text-align:center;font-size:11px;color:#333;margin-top:20px;">30-day money-back guarantee. Cancel anytime.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">
+      <div class="logo-icon" style="width:24px;height:24px;background:#22c55e;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;">✓</div>
+      <span style="font-weight:800;font-size:14px;margin-left:6px;">Approvee</span>
+      <span style="font-size:11px;color:#222;margin-left:4px;">by Boom Media</span>
+    </div>
+    <div class="footer-links">
+      <a href="#">Privacy</a>
+      <a href="#">Terms</a>
+      <a href="#">Support</a>
+    </div>
+    <div class="footer-copy">&copy; 2026 Approvee. All rights reserved.</div>
+  </div>
+</footer>
+
+</body>
+</html>
