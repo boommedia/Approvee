@@ -6,8 +6,8 @@ import {
 } from 'lucide-react'
 import { timeAgo, PRIORITY_COLORS } from '@/lib/utils'
 
-const ACCENT = '#22c55e'
-const BORDER = '#1a1a1a'
+const ACCENT = '#4ade80'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
 
 type FeedbackItem = {
@@ -93,7 +93,7 @@ export default function KanbanBoard({
             onDragLeave={() => setDragOver(null)}
             onDrop={e => handleDrop(e, col.id)}
             style={{
-              background: isOver ? `${col.color}08` : '#0d0d0d',
+              background: isOver ? `${col.color}08` : '#040d04',
               border: `1px solid ${isOver ? col.color + '50' : BORDER}`,
               borderRadius: 14,
               display: 'flex',
@@ -119,7 +119,7 @@ export default function KanbanBoard({
               <span style={{
                 fontSize: 11, fontWeight: 900,
                 color: colItems.length > 0 ? col.color : '#333',
-                background: colItems.length > 0 ? `${col.color}15` : '#1a1a1a',
+                background: colItems.length > 0 ? `${col.color}15` : '#0e1e0e',
                 padding: '2px 8px', borderRadius: 99,
               }}>
                 {colItems.length}
@@ -151,8 +151,8 @@ export default function KanbanBoard({
                     onDragStart={e => handleDragStart(e, item)}
                     onDragEnd={handleDragEnd}
                     style={{
-                      background: isDragging ? '#1a1a1a' : '#111111',
-                      border: `1px solid ${isDragging ? col.color + '60' : '#1e1e1e'}`,
+                      background: isDragging ? '#0e1e0e' : '#071407',
+                      border: `1px solid ${isDragging ? col.color + '60' : '#102010'}`,
                       borderRadius: 10,
                       padding: '11px 12px',
                       cursor: isDragging ? 'grabbing' : 'grab',

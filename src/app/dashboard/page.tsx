@@ -4,10 +4,10 @@ import { createClient } from '@/lib/supabase/server'
 import { Plus, MessageSquare, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react'
 import { timeAgo, STATUS_COLORS, PRIORITY_COLORS } from '@/lib/utils'
 
-const ACCENT = '#22c55e'
-const BORDER = '#1a1a1a'
+const ACCENT = '#4ade80'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const MUTED = '#111111'
+const MUTED = '#071407'
 
 type FeedbackRow = {
   id: string
@@ -161,7 +161,7 @@ export default async function DashboardPage() {
                       </div>
                       <div>
                         <div style={{ fontSize: 10, color: '#444', marginBottom: 4 }}>{resolved}/{totalItems} done</div>
-                        <div style={{ height: 4, background: '#1a1a1a', borderRadius: 2, overflow: 'hidden' }}>
+                        <div style={{ height: 4, background: '#0e1e0e', borderRadius: 2, overflow: 'hidden' }}>
                           <div style={{ height: '100%', background: ACCENT, borderRadius: 2, width: `${pct}%` }} />
                         </div>
                       </div>

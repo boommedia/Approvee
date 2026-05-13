@@ -33,7 +33,7 @@ export function slugify(text: string) {
 export const STATUS_COLORS: Record<string, string> = {
   open: '#f97316',
   in_progress: '#3b82f6',
-  resolved: '#22c55e',
+  resolved: '#4ade80',
   wont_fix: '#6b7280',
 }
 

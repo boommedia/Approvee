@@ -5,12 +5,12 @@ import { useToast } from '@/contexts/ToastContext'
 import { useRouter } from 'next/navigation'
 import type { User } from '@supabase/supabase-js'
 
-const ACCENT = '#22c55e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
-const BORDER = '#1a1a1a'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const MUTED = '#111111'
-const BG = '#0a0a0a'
+const MUTED = '#071407'
+const BG = '#030a04'
 
 export default function AccountForm({ user, profile }: { user: User; profile: Record<string, string> | null }) {
   const { toast } = useToast()

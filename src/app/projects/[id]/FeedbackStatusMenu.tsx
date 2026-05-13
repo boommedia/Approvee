@@ -6,8 +6,8 @@ import { useToast } from '@/contexts/ToastContext'
 import { useRouter } from 'next/navigation'
 import { STATUS_COLORS } from '@/lib/utils'
 
-const BORDER = '#1a1a1a'
-const MUTED = '#111111'
+const BORDER = '#0e1e0e'
+const MUTED = '#071407'
 
 const STATUSES = [
   { value: 'open', label: 'Open' },

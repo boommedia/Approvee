@@ -5,10 +5,10 @@ import { Check, Zap } from 'lucide-react'
 import BillingActions from './BillingActions'
 import { PLANS } from '@/lib/stripe'
 
-const ACCENT = '#22c55e'
-const BORDER = '#1a1a1a'
+const ACCENT = '#4ade80'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const MUTED = '#111111'
+const MUTED = '#071407'
 
 export default async function BillingPage() {
   const supabase = await createClient()

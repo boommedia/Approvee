@@ -3,10 +3,10 @@ import { Copy, Check } from 'lucide-react'
 import { useState } from 'react'
 import { useToast } from '@/contexts/ToastContext'
 
-const ACCENT = '#22c55e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
-const BORDER = '#1a1a1a'
-const MUTED = '#111111'
+const BORDER = '#0e1e0e'
+const MUTED = '#071407'
 
 export default function ProjectActions({ reviewUrl, projectId, copyOnly }: { reviewUrl: string; projectId: string; copyOnly?: boolean }) {
   const { toast } = useToast()

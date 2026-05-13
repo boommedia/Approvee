@@ -4,10 +4,10 @@ import { X, Send, Lock } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useRouter } from 'next/navigation'
 
-const ACCENT = '#22c55e'
-const BORDER = '#1a1a1a'
+const ACCENT = '#4ade80'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const BG = '#0a0a0a'
+const BG = '#030a04'
 
 const PRIORITIES = [
   { value: 'low', label: 'Low', color: '#6b7280' },
@@ -60,7 +60,7 @@ export default function AddTaskModal({ projectId, onClose }: { projectId: string
       {/* Modal */}
       <div style={{
         position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)',
-        background: '#0d0d0d', border: `1px solid ${BORDER}`, borderRadius: 16,
+        background: '#040d04', border: `1px solid ${BORDER}`, borderRadius: 16,
         padding: 28, width: '100%', maxWidth: 480, zIndex: 201,
         boxShadow: '0 24px 64px rgba(0,0,0,0.6)',
       }}>

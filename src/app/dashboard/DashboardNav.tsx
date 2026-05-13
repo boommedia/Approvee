@@ -5,9 +5,9 @@ import { CheckCircle, LayoutDashboard, MessageSquare, Settings, CreditCard, Help
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
-const ACCENT = '#22c55e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
-const BORDER = '#1a1a1a'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
 
 const NAV = [
@@ -32,7 +32,7 @@ export default function DashboardNav({ user, openCount = 0 }: { user: User; open
     .split(' ').map((n: string) => n[0]).join('').toUpperCase().slice(0, 2)
 
   return (
-    <nav style={{ width: 224, background: '#0d0d0d', borderRight: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', flexShrink: 0 }}>
+    <nav style={{ width: 224, background: '#040d04', borderRight: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', flexShrink: 0 }}>
 
       {/* Logo + plan */}
       <div style={{ padding: '18px 16px 16px', borderBottom: `1px solid ${BORDER}` }}>

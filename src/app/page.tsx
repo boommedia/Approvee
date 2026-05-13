@@ -7,13 +7,13 @@ import {
   ChevronDown, Star,
 } from 'lucide-react'
 
-const BG = '#0a0a0a'
-const BG2 = '#0f0f0f'
-const BORDER = '#1a1a1a'
-const ACCENT = '#22c55e'
+const BG = '#030a04'
+const BG2 = '#060f06'
+const BORDER = '#0e1e0e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
 const BODY = '#888888'
-const MUTED = '#111111'
+const MUTED = '#071407'
 
 const FEATURES = [
   {

@@ -5,11 +5,11 @@ import { CheckCircle, Globe, ArrowRight, Copy, Check, ExternalLink } from 'lucid
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/contexts/ToastContext'
 
-const BG = '#0a0a0a'
-const BORDER = '#1a1a1a'
-const ACCENT = '#22c55e'
+const BG = '#030a04'
+const BORDER = '#0e1e0e'
+const ACCENT = '#4ade80'
 const BODY = '#888888'
-const MUTED = '#111111'
+const MUTED = '#071407'
 
 const PERSONAS = [
   { id: 'freelancer', label: 'Freelancer', icon: '👤', desc: 'I work with clients independently' },
@@ -87,7 +87,7 @@ export default function OnboardingPage() {
           <div key={s} style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{
               width: 28, height: 28, borderRadius: '50%',
-              background: step >= s ? ACCENT : '#1a1a1a',
+              background: step >= s ? ACCENT : '#0e1e0e',
               border: `1px solid ${step >= s ? ACCENT : BORDER}`,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 11, fontWeight: 800,
@@ -97,7 +97,7 @@ export default function OnboardingPage() {
               {step > s ? '✓' : s}
             </div>
             {s < 3 && (
-              <div style={{ width: 40, height: 2, background: step > s ? ACCENT : '#1a1a1a', borderRadius: 1, transition: 'background 0.3s' }} />
+              <div style={{ width: 40, height: 2, background: step > s ? ACCENT : '#0e1e0e', borderRadius: 1, transition: 'background 0.3s' }} />
             )}
           </div>
         ))}

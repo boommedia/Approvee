@@ -5,11 +5,11 @@ import { timeAgo, STATUS_COLORS, PRIORITY_COLORS } from '@/lib/utils'
 import FeedbackStatusMenu from './FeedbackStatusMenu'
 import AddTaskModal from './AddTaskModal'
 
-const ACCENT = '#22c55e'
-const BORDER = '#1a1a1a'
+const ACCENT = '#4ade80'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const MUTED = '#111111'
-const BG = '#0a0a0a'
+const MUTED = '#071407'
+const BG = '#030a04'
 
 type FeedbackItem = {
   id: string

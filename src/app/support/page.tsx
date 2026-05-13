@@ -3,11 +3,11 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { CheckCircle, Mail, ChevronDown, ExternalLink } from 'lucide-react'
 
-const BG = '#0a0a0a'
-const BORDER = '#1a1a1a'
-const ACCENT = '#22c55e'
+const BG = '#030a04'
+const BORDER = '#0e1e0e'
+const ACCENT = '#4ade80'
 const BODY = '#888888'
-const MUTED = '#111111'
+const MUTED = '#071407'
 
 const ARTICLES = [
   {

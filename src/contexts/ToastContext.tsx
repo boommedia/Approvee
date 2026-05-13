@@ -17,7 +17,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     setTimeout(() => setToasts(t => t.filter(x => x.id !== id)), 3500)
   }, [])
 
-  const COLORS = { success: '#22c55e', error: '#ef4444', info: '#3b82f6' }
+  const COLORS = { success: '#4ade80', error: '#ef4444', info: '#3b82f6' }
 
   return (
     <ToastContext.Provider value={{ toast }}>
@@ -27,7 +27,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           <div
             key={t.id}
             style={{
-              background: '#1a1a1a',
+              background: '#0e1e0e',
               border: `1px solid ${COLORS[t.type]}40`,
               borderLeft: `3px solid ${COLORS[t.type]}`,
               color: '#fff',

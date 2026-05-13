@@ -25,7 +25,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   }
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: '#0a0a0a' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: '#030a04' }}>
       <DashboardNav user={user} openCount={openCount} />
       <main style={{ flex: 1, overflow: 'auto' }}>
         {children}

@@ -2,9 +2,9 @@
 import { useState } from 'react'
 import { useToast } from '@/contexts/ToastContext'
 
-const ACCENT = '#22c55e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
-const BORDER = '#1a1a1a'
+const BORDER = '#0e1e0e'
 const BODY = '#888'
 
 export default function BillingActions({ planKey, hasSubscription }: { planKey?: string; hasSubscription?: boolean }) {

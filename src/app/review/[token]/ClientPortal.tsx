@@ -8,11 +8,11 @@ import {
 import { timeAgo, STATUS_COLORS, PRIORITY_COLORS } from '@/lib/utils'
 import KanbanBoard from './KanbanBoard'
 
-const ACCENT = '#22c55e'
-const BORDER = '#1a1a1a'
+const ACCENT = '#4ade80'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const MUTED = '#111111'
-const BG = '#0a0a0a'
+const MUTED = '#071407'
+const BG = '#030a04'
 
 type Reply = {
   id: string
@@ -158,7 +158,7 @@ export default function ClientPortal({
     <div style={{ background: BG, minHeight: '100vh' }}>
 
       {/* Site header */}
-      <div style={{ background: '#0d0d0d', borderBottom: `1px solid ${BORDER}`, padding: '13px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 50 }}>
+      <div style={{ background: '#040d04', borderBottom: `1px solid ${BORDER}`, padding: '13px 28px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
           <div style={{ width: 30, height: 30, background: ACCENT, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <CheckCircle size={15} color="#000" />
@@ -212,7 +212,7 @@ export default function ClientPortal({
       )}
 
       {/* Project hero */}
-      <div style={{ background: 'linear-gradient(135deg, #0c160c, #0a0a0a)', borderBottom: `1px solid ${BORDER}`, padding: '28px 28px 24px' }}>
+      <div style={{ background: 'linear-gradient(135deg, #0c160c, #030a04)', borderBottom: `1px solid ${BORDER}`, padding: '28px 28px 24px' }}>
         <div style={{ maxWidth: 860, margin: '0 auto' }}>
           <div style={{ fontSize: 11, fontWeight: 800, color: ACCENT, textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: 6 }}>
             ● {project.name}
@@ -231,7 +231,7 @@ export default function ClientPortal({
                 <span>Completion</span>
                 <span style={{ color: '#fff', fontWeight: 700 }}>{resolveRate}% resolved</span>
               </div>
-              <div style={{ height: 7, background: '#1a1a1a', borderRadius: 4, overflow: 'hidden' }}>
+              <div style={{ height: 7, background: '#0e1e0e', borderRadius: 4, overflow: 'hidden' }}>
                 <div style={{ height: '100%', background: `linear-gradient(90deg, ${ACCENT}, #16a34a)`, borderRadius: 4, width: `${resolveRate}%`, transition: 'width 0.6s' }} />
               </div>
             </div>
@@ -445,7 +445,7 @@ export default function ClientPortal({
                             <div style={{ width: 26, height: 26, borderRadius: '50%', background: 'rgba(34,197,94,0.1)', color: ACCENT, fontSize: 10, fontWeight: 900, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                               {(reply.author_name || 'A')[0].toUpperCase()}
                             </div>
-                            <div style={{ flex: 1, background: '#1a1a1a', borderRadius: '0 9px 9px 9px', padding: '9px 12px' }}>
+                            <div style={{ flex: 1, background: '#0e1e0e', borderRadius: '0 9px 9px 9px', padding: '9px 12px' }}>
                               <div style={{ fontSize: 11, fontWeight: 700, color: '#bbb', marginBottom: 4 }}>
                                 {reply.author_name || 'Anonymous'}{' '}
                                 <span style={{ color: '#444', fontWeight: 400 }}>{timeAgo(reply.created_at)}</span>

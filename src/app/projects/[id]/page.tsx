@@ -6,10 +6,10 @@ import { timeAgo } from '@/lib/utils'
 import ProjectActions from './ProjectActions'
 import FeedbackList from './FeedbackList'
 
-const ACCENT = '#22c55e'
-const BORDER = '#1a1a1a'
+const ACCENT = '#4ade80'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const MUTED = '#111111'
+const MUTED = '#071407'
 
 export default async function ProjectPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params

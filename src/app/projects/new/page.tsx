@@ -6,12 +6,12 @@ import { ArrowLeft, Globe } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/contexts/ToastContext'
 
-const ACCENT = '#22c55e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
-const BORDER = '#1a1a1a'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const MUTED = '#111111'
-const BG = '#0a0a0a'
+const MUTED = '#071407'
+const BG = '#030a04'
 
 export default function NewProjectPage() {
   const router = useRouter()

@@ -6,12 +6,12 @@ import {
 } from 'lucide-react'
 import { timeAgo } from '@/lib/utils'
 
-const ACCENT = '#22c55e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
-const BORDER = '#1a1a1a'
+const BORDER = '#0e1e0e'
 const BODY = '#888888'
-const BG = '#0a0a0a'
-const MUTED = '#111111'
+const BG = '#030a04'
+const MUTED = '#071407'
 
 type BrowserInfo = {
   device?: string
@@ -161,7 +161,7 @@ export default function ReviewCanvas({
     <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: BG, overflow: 'hidden' }}>
 
       {/* Top toolbar */}
-      <div style={{ background: '#0d0d0d', borderBottom: `1px solid ${BORDER}`, padding: '0 16px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, zIndex: 100 }}>
+      <div style={{ background: '#040d04', borderBottom: `1px solid ${BORDER}`, padding: '0 16px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
             <div style={{ width: 26, height: 26, borderRadius: 7, background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -326,7 +326,7 @@ export default function ReviewCanvas({
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <div style={{ fontSize: 11, color: BODY }}>{timeAgo(selectedPin.created_at)}</div>
                   {selectedPin.browser_info?.device && (
-                    <span style={{ fontSize: 10, fontWeight: 700, color: '#555', background: '#1a1a1a', border: '1px solid #2a2a2a', padding: '2px 7px', borderRadius: 99, display: 'flex', alignItems: 'center', gap: 4 }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: '#555', background: '#0e1e0e', border: '1px solid #2a2a2a', padding: '2px 7px', borderRadius: 99, display: 'flex', alignItems: 'center', gap: 4 }}>
                       {selectedPin.browser_info.device === 'Mobile' ? <Smartphone size={9} /> : selectedPin.browser_info.device === 'Tablet' ? <Tablet size={9} /> : <Monitor size={9} />}
                       {selectedPin.browser_info.device}
                       {selectedPin.browser_info.browser ? ` · ${selectedPin.browser_info.browser}` : ''}
@@ -400,7 +400,7 @@ export default function ReviewCanvas({
 
         {/* Sidebar */}
         {sidebarOpen && (
-          <div style={{ width: 320, background: '#0d0d0d', borderLeft: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
+          <div style={{ width: 320, background: '#040d04', borderLeft: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', flexShrink: 0 }}>
             <div style={{ padding: '14px 16px', borderBottom: `1px solid ${BORDER}`, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 14, fontWeight: 700, color: '#fff' }}>Feedback ({feedback.length})</span>
               <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: BODY }}>

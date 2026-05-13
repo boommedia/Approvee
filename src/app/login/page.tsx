@@ -6,12 +6,12 @@ import { CheckCircle, Eye, EyeOff } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { useToast } from '@/contexts/ToastContext'
 
-const BG = '#0a0a0a'
-const BORDER = '#1a1a1a'
-const ACCENT = '#22c55e'
+const BG = '#030a04'
+const BORDER = '#0e1e0e'
+const ACCENT = '#4ade80'
 const ACCENT_TEXT = '#000'
 const BODY = '#888888'
-const MUTED = '#111111'
+const MUTED = '#071407'
 
 function LoginForm() {
   const router = useRouter()
