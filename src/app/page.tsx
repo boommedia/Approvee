@@ -345,21 +345,27 @@ export default function Home() {
       </div>
 
       {/* Nav */}
-      <nav style={{ position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(12px)', background: `${BG}cc`, borderBottom: `1px solid ${BORDER}`, padding: '14px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 2 }}>
-          <img src="/approvee-logo.png" style={{ width: 48, height: 48, objectFit: 'contain' }} alt="Approvee" />
-          <span style={{ fontSize: 10, color: '#2a2a2a', lineHeight: 1 }}>by Boom Media</span>
-        </div>
-        <div style={{ display: 'flex', gap: 28, fontSize: 13, color: BODY }}>
+      <nav style={{ position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(12px)', background: `${BG}ee`, borderBottom: `1px solid ${BORDER}`, padding: '0 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 60 }}>
+        {/* Brand */}
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', flexShrink: 0 }}>
+          <img src="/approvee-logo.png" style={{ width: 36, height: 36, objectFit: 'contain' }} alt="Approvee" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 1, lineHeight: 1 }}>
+            <span style={{ fontWeight: 900, fontSize: 17, color: '#fff', letterSpacing: '-0.3px' }}>Approvee</span>
+            <span style={{ fontSize: 10, color: '#444' }}>by Boom Media</span>
+          </div>
+        </Link>
+        {/* Links */}
+        <div style={{ display: 'flex', gap: 26, fontSize: 13, alignItems: 'center' }}>
           <a href="#features" style={{ color: BODY, textDecoration: 'none' }}>Features</a>
           <a href="#how-it-works" style={{ color: BODY, textDecoration: 'none' }}>How It Works</a>
-          <a href="#pricing" style={{ color: ACCENT, fontWeight: 600, textDecoration: 'none' }}>Pricing</a>
+          <a href="#pricing" style={{ color: ACCENT, fontWeight: 700, textDecoration: 'none' }}>Pricing</a>
           <a href="#faq" style={{ color: BODY, textDecoration: 'none' }}>FAQ</a>
           <Link href="/support" style={{ color: BODY, textDecoration: 'none' }}>Support</Link>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {/* CTA */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 14, flexShrink: 0 }}>
           <Link href="/login" style={{ color: BODY, fontSize: 13, textDecoration: 'none' }}>Sign In</Link>
-          <Link href="/signup" style={{ background: ACCENT, color: ACCENT_TEXT, fontWeight: 800, fontSize: 13, padding: '9px 22px', borderRadius: 10, textDecoration: 'none' }}>
+          <Link href="/signup" style={{ background: ACCENT, color: ACCENT_TEXT, fontWeight: 800, fontSize: 13, padding: '9px 22px', borderRadius: 99, textDecoration: 'none' }}>
             Start Free
           </Link>
         </div>

@@ -36,9 +36,12 @@ export default function DashboardNav({ user, openCount = 0 }: { user: User; open
 
       {/* Logo + plan */}
       <div style={{ padding: '18px 16px 16px', borderBottom: `1px solid ${BORDER}` }}>
-        <Link href="/dashboard" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 3, textDecoration: 'none', marginBottom: 4 }}>
-          <img src="/approvee-logo.png" style={{ width: 52, height: 52, objectFit: 'contain' }} alt="Approvee" />
-          <span style={{ fontSize: 10, color: '#444' }}>by Boom Media</span>
+        <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none', marginBottom: 4 }}>
+          <img src="/approvee-logo.png" style={{ width: 36, height: 36, objectFit: 'contain', flexShrink: 0 }} alt="Approvee" />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 1, lineHeight: 1 }}>
+            <span style={{ fontWeight: 900, fontSize: 15, color: '#fff', letterSpacing: '-0.3px' }}>Approvee</span>
+            <span style={{ fontSize: 10, color: '#444' }}>by Boom Media</span>
+          </div>
         </Link>
       </div>
 
