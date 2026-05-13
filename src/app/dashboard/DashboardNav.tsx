@@ -1,7 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { CheckCircle, LayoutDashboard, MessageSquare, Settings, CreditCard, HelpCircle, LogOut, Plus } from 'lucide-react'
+import { LayoutDashboard, Settings, CreditCard, HelpCircle, LogOut, Plus } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import type { User } from '@supabase/supabase-js'
 
@@ -34,14 +34,11 @@ export default function DashboardNav({ user, openCount = 0 }: { user: User; open
   return (
     <nav style={{ width: 224, background: '#040d04', borderRight: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', position: 'sticky', top: 0, height: '100vh', flexShrink: 0 }}>
 
-      {/* Logo + plan */}
-      <div style={{ padding: '18px 16px 16px', borderBottom: `1px solid ${BORDER}` }}>
-        <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none', marginBottom: 4 }}>
-          <img src="/approvee-logo.png" style={{ width: 36, height: 36, objectFit: 'contain', flexShrink: 0 }} alt="Approvee" />
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 1, lineHeight: 1 }}>
-            <span style={{ fontWeight: 900, fontSize: 15, color: '#fff', letterSpacing: '-0.3px' }}>Approvee</span>
-            <span style={{ fontSize: 10, color: '#444' }}>by Boom Media</span>
-          </div>
+      {/* Logo */}
+      <div style={{ padding: '20px 16px 16px', borderBottom: `1px solid ${BORDER}`, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+        <Link href="/dashboard" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
+          <img src="/approvee-logo.png" style={{ width: 120, height: 120, objectFit: 'contain' }} alt="Approvee" />
+          <span style={{ fontSize: 10, color: '#444', letterSpacing: '0.3px' }}>by Boom Media</span>
         </Link>
       </div>
 
