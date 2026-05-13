@@ -158,6 +158,30 @@ create trigger update_profiles_updated_at
   for each row execute procedure update_updated_at_column();
 
 -- ----------------------------------------------------------------
+-- GRANTS
+-- Required from May 30 2026 (new projects) / Oct 30 2026 (all projects).
+-- Without these, PostgREST returns 42501 and supabase-js gets no data.
+-- ----------------------------------------------------------------
+
+-- profiles: only authenticated users touch their own row; service_role for webhooks
+grant select, insert, update on public.profiles to authenticated;
+grant all on public.profiles to service_role;
+
+-- projects: authenticated users manage their own projects; service_role for public review routes
+grant select, insert, update, delete on public.projects to authenticated;
+grant all on public.projects to service_role;
+
+-- feedback_items: anon can submit/read (guest reviewers); authenticated for full CRUD
+grant select, insert on public.feedback_items to anon;
+grant select, insert, update, delete on public.feedback_items to authenticated;
+grant all on public.feedback_items to service_role;
+
+-- feedback_replies: anon can read + insert; authenticated same; service_role full
+grant select, insert on public.feedback_replies to anon;
+grant select, insert on public.feedback_replies to authenticated;
+grant all on public.feedback_replies to service_role;
+
+-- ----------------------------------------------------------------
 -- INDEXES
 -- ----------------------------------------------------------------
 create index if not exists idx_projects_created_by on projects(created_by);

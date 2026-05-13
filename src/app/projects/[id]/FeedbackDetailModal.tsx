@@ -31,7 +31,7 @@ export type FeedbackItem = {
 
 type Reply = {
   id: string
-  body: string
+  comment: string
   author_name: string | null
   created_at: string
 }
@@ -87,7 +87,7 @@ export default function FeedbackDetailModal({
     const { data } = await supabase
       .from('feedback_replies')
       .select('*')
-      .eq('feedback_item_id', item.id)
+      .eq('feedback_id', item.id)
       .order('created_at', { ascending: true })
     setReplies(data || [])
   }
@@ -126,8 +126,8 @@ export default function FeedbackDetailModal({
     const supabase = createClient()
     const { data: { user } } = await supabase.auth.getUser()
     const { error } = await supabase.from('feedback_replies').insert({
-      feedback_item_id: item.id,
-      body: replyText.trim(),
+      feedback_id: item.id,
+      comment: replyText.trim(),
       author_name: user?.user_metadata?.full_name || user?.email || 'Admin',
     })
     if (error) { toast(error.message, 'error'); setSendingReply(false); return }
@@ -275,7 +275,7 @@ export default function FeedbackDetailModal({
                         <span style={{ fontSize: 12, fontWeight: 700, color: '#ddd' }}>{r.author_name || 'Admin'}</span>
                         <span style={{ fontSize: 11, color: BODY }}>{timeAgo(r.created_at)}</span>
                       </div>
-                      <p style={{ fontSize: 13, color: '#ccc', margin: 0, lineHeight: 1.5 }}>{r.body}</p>
+                      <p style={{ fontSize: 13, color: '#ccc', margin: 0, lineHeight: 1.5 }}>{r.comment}</p>
                     </div>
                   ))}
                 </div>
