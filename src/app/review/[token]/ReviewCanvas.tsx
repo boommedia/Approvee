@@ -164,9 +164,7 @@ export default function ReviewCanvas({
       <div style={{ background: '#040d04', borderBottom: `1px solid ${BORDER}`, padding: '0 16px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <div style={{ width: 26, height: 26, borderRadius: 7, background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CheckCircle size={13} color={ACCENT_TEXT} />
-            </div>
+            <img src="/approvee-logo.png" style={{ width: 26, height: 26, objectFit: 'contain' }} alt="Approvee" />
             <span style={{ fontWeight: 900, fontSize: 15, color: '#fff' }}>Approvee</span>
           </div>
           <div style={{ width: 1, height: 20, background: BORDER }} />

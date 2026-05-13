@@ -347,9 +347,7 @@ export default function Home() {
       {/* Nav */}
       <nav style={{ position: 'sticky', top: 0, zIndex: 50, backdropFilter: 'blur(12px)', background: `${BG}cc`, borderBottom: `1px solid ${BORDER}`, padding: '14px 32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 8, background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <CheckCircle size={16} color={ACCENT_TEXT} />
-          </div>
+          <img src="/approvee-logo.png" style={{ width: 32, height: 32, objectFit: 'contain' }} alt="Approvee" />
           <span style={{ fontWeight: 900, fontSize: 18, color: '#fff' }}>Approvee</span>
           <span style={{ fontSize: 11, color: '#2a2a2a', marginLeft: 2 }}>by Boom Media</span>
         </div>
@@ -781,9 +779,7 @@ export default function Home() {
       <footer style={{ borderTop: `1px solid ${BORDER}`, padding: '32px 24px' }}>
         <div style={{ maxWidth: 1100, margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 24, height: 24, borderRadius: 6, background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <CheckCircle size={12} color={ACCENT_TEXT} />
-            </div>
+            <img src="/approvee-logo.png" style={{ width: 24, height: 24, objectFit: 'contain' }} alt="Approvee" />
             <span style={{ fontWeight: 800, color: '#fff', fontSize: 14 }}>Approvee</span>
             <span style={{ fontSize: 11, color: '#222' }}>by Boom Media</span>
           </div>

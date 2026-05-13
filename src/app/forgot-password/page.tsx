@@ -32,9 +32,7 @@ export default function ForgotPasswordPage() {
   return (
     <main style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', marginBottom: 32 }}>
-        <div style={{ width: 36, height: 36, borderRadius: 10, background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <CheckCircle size={18} color={ACCENT_TEXT} />
-        </div>
+        <img src="/approvee-logo.png" style={{ width: 36, height: 36, objectFit: 'contain' }} alt="Approvee" />
         <span style={{ fontWeight: 900, fontSize: 20, color: '#fff' }}>Approvee</span>
       </Link>
 

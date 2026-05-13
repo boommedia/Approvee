@@ -37,9 +37,7 @@ export default function DashboardNav({ user, openCount = 0 }: { user: User; open
       {/* Logo + plan */}
       <div style={{ padding: '18px 16px 16px', borderBottom: `1px solid ${BORDER}` }}>
         <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none', marginBottom: 4 }}>
-          <div style={{ width: 32, height: 32, borderRadius: 9, background: ACCENT, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-            <CheckCircle size={16} color={ACCENT_TEXT} />
-          </div>
+          <img src="/approvee-logo.png" style={{ width: 32, height: 32, objectFit: 'contain', flexShrink: 0 }} alt="Approvee" />
           <span style={{ fontWeight: 900, fontSize: 16, color: '#fff', letterSpacing: '-0.3px' }}>Approvee</span>
         </Link>
         <div style={{ fontSize: 10, color: '#444', paddingLeft: 41 }}>Free Plan</div>
