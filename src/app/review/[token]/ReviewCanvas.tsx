@@ -163,9 +163,9 @@ export default function ReviewCanvas({
       {/* Top toolbar */}
       <div style={{ background: '#040d04', borderBottom: `1px solid ${BORDER}`, padding: '0 16px', height: 52, display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexShrink: 0, zIndex: 100 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <img src="/approvee-logo.png" style={{ width: 26, height: 26, objectFit: 'contain' }} alt="Approvee" />
-            <span style={{ fontWeight: 900, fontSize: 15, color: '#fff' }}>Approvee</span>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 1 }}>
+            <img src="/approvee-logo.png" style={{ width: 38, height: 38, objectFit: 'contain' }} alt="Approvee" />
+            <span style={{ fontSize: 9, color: '#444', lineHeight: 1 }}>by Boom Media</span>
           </div>
           <div style={{ width: 1, height: 20, background: BORDER }} />
           <div>

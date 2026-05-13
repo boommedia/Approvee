@@ -40,9 +40,9 @@ export default function ResetPasswordPage() {
 
   return (
     <main style={{ background: BG, minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
-      <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none', marginBottom: 32 }}>
-        <img src="/approvee-logo.png" style={{ width: 36, height: 36, objectFit: 'contain' }} alt="Approvee" />
-        <span style={{ fontWeight: 900, fontSize: 20, color: '#fff' }}>Approvee</span>
+      <Link href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, textDecoration: 'none', marginBottom: 32 }}>
+        <img src="/approvee-logo.png" style={{ width: 64, height: 64, objectFit: 'contain' }} alt="Approvee" />
+        <span style={{ fontSize: 11, color: '#555' }}>by Boom Media</span>
       </Link>
 
       <div style={{ background: MUTED, border: `1px solid ${BORDER}`, borderRadius: 18, padding: 36, width: '100%', maxWidth: 420 }}>

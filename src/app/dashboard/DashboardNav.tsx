@@ -36,11 +36,10 @@ export default function DashboardNav({ user, openCount = 0 }: { user: User; open
 
       {/* Logo + plan */}
       <div style={{ padding: '18px 16px 16px', borderBottom: `1px solid ${BORDER}` }}>
-        <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 9, textDecoration: 'none', marginBottom: 4 }}>
-          <img src="/approvee-logo.png" style={{ width: 32, height: 32, objectFit: 'contain', flexShrink: 0 }} alt="Approvee" />
-          <span style={{ fontWeight: 900, fontSize: 16, color: '#fff', letterSpacing: '-0.3px' }}>Approvee</span>
+        <Link href="/dashboard" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: 3, textDecoration: 'none', marginBottom: 4 }}>
+          <img src="/approvee-logo.png" style={{ width: 52, height: 52, objectFit: 'contain' }} alt="Approvee" />
+          <span style={{ fontSize: 10, color: '#444' }}>by Boom Media</span>
         </Link>
-        <div style={{ fontSize: 10, color: '#444', paddingLeft: 41 }}>Free Plan</div>
       </div>
 
       {/* New Project */}
