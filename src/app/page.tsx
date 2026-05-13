@@ -380,8 +380,9 @@ export default function Home() {
           </div>
 
           <h1 style={{ fontSize: 'clamp(42px, 6vw, 72px)', fontWeight: 900, lineHeight: 1.08, marginBottom: 22 }}>
-            <span style={{ color: '#fff', display: 'block' }}>Stop chasing clients</span>
-            <span style={{ color: ACCENT, display: 'block' }}>for feedback.</span>
+            <span style={{ color: '#fff', display: 'block' }}>One Dashboard.</span>
+            <span style={{ color: '#fff', display: 'block' }}>Every Client</span>
+            <span style={{ color: ACCENT, display: 'block' }}>Approved.</span>
           </h1>
 
           <p style={{ fontSize: 19, color: BODY, maxWidth: 560, margin: '0 auto 14px', lineHeight: 1.7 }}>
