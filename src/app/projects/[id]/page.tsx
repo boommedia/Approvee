@@ -5,6 +5,8 @@ import { ArrowLeft, ExternalLink, Copy, MessageSquare, CheckCircle, Clock, Alert
 import { timeAgo } from '@/lib/utils'
 import ProjectActions from './ProjectActions'
 import FeedbackList from './FeedbackList'
+import AssetUpload from './AssetUpload'
+import AssetList from './AssetList'
 
 const ACCENT = '#4ade80'
 const BORDER = '#0e1e0e'
@@ -28,6 +30,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
 
   const { data: feedback } = await supabase
     .from('feedback_items')
+    .select('*')
+    .eq('project_id', id)
+    .order('created_at', { ascending: false })
+
+  const { data: assets } = await supabase
+    .from('project_assets')
     .select('*')
     .eq('project_id', id)
     .order('created_at', { ascending: false })
@@ -94,8 +102,25 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
         ))}
       </div>
 
+      {/* Files & Assets */}
+      <div style={{ marginBottom: 32 }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+          <div>
+            <h2 style={{ fontSize: 16, fontWeight: 800, color: '#fff', marginBottom: 2 }}>Files & Assets</h2>
+            <p style={{ fontSize: 12, color: BODY }}>Upload images or PDFs for client review and annotation.</p>
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          <AssetUpload projectId={id} />
+          <AssetList assets={assets || []} reviewToken={project.review_token} />
+        </div>
+      </div>
+
       {/* Feedback list */}
-      <FeedbackList items={items} projectId={id} />
+      <div>
+        <h2 style={{ fontSize: 16, fontWeight: 800, color: '#fff', marginBottom: 14 }}>Website Feedback</h2>
+        <FeedbackList items={items} projectId={id} />
+      </div>
     </div>
   )
 }

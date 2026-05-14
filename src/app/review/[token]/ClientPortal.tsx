@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import {
   CheckCircle, MessageSquare, ChevronDown, AlertCircle, Clock, XCircle,
   Monitor, Tablet, Smartphone, Send, ThumbsUp, ExternalLink, List, LayoutDashboard,
+  FileText, Image,
 } from 'lucide-react'
 import { timeAgo, STATUS_COLORS, PRIORITY_COLORS } from '@/lib/utils'
 import KanbanBoard from './KanbanBoard'
@@ -36,6 +37,14 @@ type FeedbackItem = {
   feedback_replies?: Reply[]
 }
 
+type Asset = {
+  id: string
+  name: string
+  file_url: string
+  file_type: string
+  created_at: string
+}
+
 type Project = {
   id: string
   name: string
@@ -54,10 +63,12 @@ export default function ClientPortal({
   project,
   token,
   feedback,
+  assets = [],
 }: {
   project: Project
   token: string
   feedback: FeedbackItem[]
+  assets?: Asset[]
 }) {
   const router = useRouter()
   const [expanded, setExpanded] = useState<string | null>(null)
@@ -268,6 +279,42 @@ export default function ClientPortal({
           </div>
         </div>
       </div>
+
+      {/* Files section */}
+      {assets.length > 0 && (
+        <div style={{ borderBottom: `1px solid ${BORDER}`, padding: '20px 28px' }}>
+          <div style={{ maxWidth: 860, margin: '0 auto' }}>
+            <h2 style={{ fontSize: 14, fontWeight: 800, color: '#fff', marginBottom: 12 }}>
+              Files for Review <span style={{ fontSize: 12, fontWeight: 400, color: BODY }}>({assets.length})</span>
+            </h2>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 8 }}>
+              {assets.map(asset => {
+                const isImage = asset.file_type.startsWith('image/')
+                return (
+                  <a
+                    key={asset.id}
+                    href={`/review/${token}?mode=asset&assetId=${asset.id}`}
+                    style={{ background: MUTED, border: `1px solid ${BORDER}`, borderRadius: 10, overflow: 'hidden', textDecoration: 'none', display: 'block', transition: 'border-color 0.15s' }}
+                  >
+                    <div style={{ height: 90, background: '#0a140a', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                      {isImage
+                        ? <img src={asset.file_url} alt={asset.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        : <FileText size={28} color='#2a3a2a' />
+                      }
+                    </div>
+                    <div style={{ padding: '8px 10px' }}>
+                      <div style={{ fontSize: 11, fontWeight: 700, color: '#ddd', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', marginBottom: 4 }}>
+                        {asset.name}
+                      </div>
+                      <div style={{ fontSize: 10, fontWeight: 700, color: ACCENT }}>Open &amp; Annotate →</div>
+                    </div>
+                  </a>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Main content */}
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '24px 28px' }}>

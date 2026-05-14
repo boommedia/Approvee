@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import { createServiceClient } from '@/lib/supabase/server'
 import ReviewCanvas from './ReviewCanvas'
 import ClientPortal from './ClientPortal'
+import AssetCanvas from './AssetCanvas'
 import type { Metadata } from 'next'
 
 export async function generateMetadata({ params }: { params: Promise<{ token: string }> }): Promise<Metadata> {
@@ -19,10 +20,10 @@ export default async function ReviewPage({
   searchParams,
 }: {
   params: Promise<{ token: string }>
-  searchParams: Promise<{ mode?: string }>
+  searchParams: Promise<{ mode?: string; assetId?: string }>
 }) {
   const { token } = await params
-  const { mode } = await searchParams
+  const { mode, assetId } = await searchParams
   const supabase = await createServiceClient()
 
   const { data: project } = await supabase
@@ -43,9 +44,41 @@ export default async function ReviewPage({
     .eq('project_id', project.id)
     .order('created_at', { ascending: true })
 
+  const { data: projectAssets } = await supabase
+    .from('project_assets')
+    .select('id, name, file_url, file_type, created_at')
+    .eq('project_id', project.id)
+    .order('created_at', { ascending: true })
+
   const items = feedback || []
 
-  // Canvas mode: annotation tool
+  // Asset mode: file annotation
+  if (mode === 'asset' && assetId) {
+    const { data: asset } = await supabase
+      .from('project_assets')
+      .select('id, name, file_url, file_type')
+      .eq('id', assetId)
+      .single()
+
+    if (!asset) notFound()
+
+    const { data: assetFeedback } = await supabase
+      .from('feedback_items')
+      .select('id, comment, x_percent, y_percent, reviewer_name, created_at, status')
+      .eq('asset_id', assetId)
+      .order('created_at', { ascending: true })
+
+    return (
+      <AssetCanvas
+        asset={asset}
+        project={project}
+        token={token}
+        initialFeedback={assetFeedback || []}
+      />
+    )
+  }
+
+  // Canvas mode: website annotation tool
   if (mode === 'canvas') {
     return (
       <ReviewCanvas
@@ -67,5 +100,5 @@ export default async function ReviewPage({
   }
 
   // Default: client portal (list + approve)
-  return <ClientPortal project={project} token={token} feedback={items} />
+  return <ClientPortal project={project} token={token} feedback={items} assets={projectAssets || []} />
 }
